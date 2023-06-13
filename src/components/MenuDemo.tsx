@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import DropDown from "./DropDown";
 import Latex from "react-latex";
 
-const MenuDemo: React.FC<{id:number, optionsList:string[], globalOptionSelected:string[], menuSelectedOption:any}> = (props) => {
+const MenuDemo: React.FC<{id:number, pageItemLanguage:number, pageItemType:string, pageItemHeader:string, pageItemFooter:string, optionsList:string[], globalOptionSelected:string[], menuSelectedOption:any}> = (props) => {
+  const en = 0;
+  const es = 1;
+  const fr = 2;
 
   const [showDropDown, setShowDropDown] = useState<boolean>(false);
   const [selectCity, setSelectCity] = useState<string>("");
@@ -37,13 +40,75 @@ const MenuDemo: React.FC<{id:number, optionsList:string[], globalOptionSelected:
    */
   const citySelection = (city: string): void => {
 
+    //here we execute the top function selectOption;
+    //globalOptionSelected gets initialized
     props.menuSelectedOption(city, props.id, props.globalOptionSelected);
     setSelectCity(city);
     
   };
 
+  const [numericalInput, setNumericalInput] = useState('');
+  const [numericalInputEntered, setNumericalInputEntered] = useState('');
+
+  function enterNumericalInput(){
+    if(isNumeric(numericalInput)){
+      props.menuSelectedOption(numericalInput, props.id, props.globalOptionSelected);
+      setNumericalInputEntered(numericalInput);
+    }
+    else{
+      props.menuSelectedOption("NaN"+numericalInput, props.id, props.globalOptionSelected);
+      setNumericalInputEntered("NaN"+numericalInput);
+    }
+  }
+
+  function changeNumericalInputHandler(event: { target: { value: React.SetStateAction<string>; }; }){    
+    setNumericalInput(event.target.value)
+  }
+
+  function isNumeric(str: string | number) {
+    if (typeof str != "string") return false // we only process strings!  
+    return !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
+  }
+
+  const [latexEq, setLatexEq] = useState('');
+  const [latexEqEntered, setLatexEqEntered] = useState('');
+
+  function enterlatexEq(){
+      props.menuSelectedOption(latexEq, props.id, props.globalOptionSelected);
+      setLatexEqEntered(latexEq);
+  }
+
+  function changeLatexEqHandler(event: { target: { value: React.SetStateAction<string>; }; }){    
+    setLatexEq(event.target.value)
+  }
+
   return (
     <>
+    <div dangerouslySetInnerHTML={{__html: props.pageItemHeader}}></div>
+
+    {(props.pageItemType==="num") && (
+      <div>
+      {/*<p>{numericalInput}</p>*/}
+      <div>{numericalInputEntered}</div>
+      <input type="text" placeholder="0.00" size={12} value={numericalInput} onChange={changeNumericalInputHandler}/>
+      <button onClick={enterNumericalInput}>{props.pageItemLanguage===en && "Enter" }{props.pageItemLanguage===es && "Entra" }{props.pageItemLanguage===fr && "Entre" }</button>
+      </div>)}
+    
+    {(props.pageItemType==="eq") && (
+      <div>
+      {/*$$\\\frac{1}{24}+a^2$$*/}
+      <div>
+            <Latex>
+            {`${latexEqEntered}`}
+            </Latex>
+        </div>
+        <p></p>
+      <input type="text" placeholder="a=b+c" size={30} value={latexEq} onChange={changeLatexEqHandler}/>
+      <button onClick={enterlatexEq}>{props.pageItemLanguage===en && "Enter" }{props.pageItemLanguage===es && "Entra" }{props.pageItemLanguage===fr && "Entre" }</button>
+      </div>)}
+
+      {(props.pageItemType==="menu") && (
+      <div>
       <div className="announcement">
         <div>
             <Latex>
@@ -61,7 +126,9 @@ const MenuDemo: React.FC<{id:number, optionsList:string[], globalOptionSelected:
         }
       >
         {/* <div>{selectCity ? "Select: " + selectCity : "Select ..."}</div> */}
-        <div> Select ...</div>
+        {props.pageItemLanguage===en && (<div> Select ...</div>)}
+        {props.pageItemLanguage===es && (<div> Seleccione ...</div>)}
+        {props.pageItemLanguage===fr && (<div> Selecte ...</div>)}
         {showDropDown && (
           <DropDown
             cities={cities()}
@@ -71,6 +138,8 @@ const MenuDemo: React.FC<{id:number, optionsList:string[], globalOptionSelected:
           />
         )}
       </button>
+      </div>)}
+      <div dangerouslySetInnerHTML={{__html: props.pageItemFooter}}></div>
     </>
   );
 };

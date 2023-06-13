@@ -103,7 +103,16 @@
 }
 
 .main-color {
-background-color: #0e76a8 ;
+/* background-color: #0e76a8 ; */
+background-color: #000000;
+}
+
+.logo-color {
+  color: #35bcff; 
+  }
+
+.tongue-color {
+  color: #ff4081;
 }
 
 .col-image-left {
