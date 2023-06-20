@@ -21,7 +21,7 @@ export const Footer: React.FC<{language:number}> = (props) => {
                     <li className='nav-item'>
                         <Link type='button' className='nav-link px-2 btn btn-lg text-white' to='/courses'>
                         {props.language===en && "Courses"}
-                        {props.language===es && "Cursos"}
+                        {props.language===es && "Cursos"}           
                         {props.language===fr && "Cours"}
                         </Link>
                     </li>

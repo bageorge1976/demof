@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import DropDown from "./DropDown";
 import Latex from "react-latex";
+import "../App.css";
 
 const MenuDemo: React.FC<{id:number, pageItemLanguage:number, pageItemType:string, pageItemHeader:string, pageItemFooter:string, optionsList:string[], globalOptionSelected:string[], menuSelectedOption:any}> = (props) => {
   const en = 0;
@@ -81,10 +82,30 @@ const MenuDemo: React.FC<{id:number, pageItemLanguage:number, pageItemType:strin
   function changeLatexEqHandler(event: { target: { value: React.SetStateAction<string>; }; }){    
     setLatexEq(event.target.value)
   }
+  
+
+let pageItemHeaderSplit = (props.pageItemHeader).split("<kaTex>"); 
+let pageItemHeaderIndices:number[] = [];
+for (var i = 0; i < pageItemHeaderSplit.length; i++) {
+  pageItemHeaderIndices.push(i);
+} 
+console.log("Problem is here:" + pageItemHeaderSplit)
 
   return (
     <>
-    <div dangerouslySetInnerHTML={{__html: props.pageItemHeader}}></div>
+    <div className="item-div mx-auto">
+       {pageItemHeaderIndices.map((number) => 
+        number%2===0?
+          <div className="d-inline" dangerouslySetInnerHTML={{__html: pageItemHeaderSplit[number] }}></div>
+          :
+          <div className="d-inline" > <Latex>{`${pageItemHeaderSplit[number]}`}</Latex></div>
+
+      )}
+    </div>
+
+
+
+    {(props.pageItemType==="info") && (<div></div>)}
 
     {(props.pageItemType==="num") && (
       <div>
