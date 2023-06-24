@@ -894,6 +894,7 @@ return(
       {scoreReport}
       <hr/>
       {presentPageScore}  */}
+      {presentPageScore}/{pageMaxScore}
       <hr/>
       {pageMaxScore===presentPageScore&&
         <div>
