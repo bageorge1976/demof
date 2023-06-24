@@ -44,14 +44,14 @@ export default function App(): JSX.Element {
     <p></p>
     <div className="flex-grow-1">
     <Routes>
-        <Route path='/' element={<HomePage />} />
-        <Route path='/courses' element={<Courses />} />
-        <Route path='/courses/math' element={<CourseContent id={1}/>}></Route>
+        <Route path='/' element={<HomePage language={language}/>} />
+        <Route path='/courses' element={<Courses language={language} />} />
+        <Route path='/courses/math' element={<CourseContent id={1} language={language}/>}></Route>
           <Route path='/courses/math/P1' element={<DemoP id={1} language={language}/>} />
           <Route path='/courses/math/P2' element={<DemoP id={2} language={language}/>} />
         
 
-        <Route path='/courses/engg' element={<CourseContent id={2}/>}></Route>
+        <Route path='/courses/engg' element={<CourseContent id={2} language={language}/>}></Route>
           <Route path='/courses/engg/P1' element={<DemoP id={3} language={language}/>} />
           <Route path='/courses/engg/P2' element={<DemoP id={4} language={language}/>} />
 

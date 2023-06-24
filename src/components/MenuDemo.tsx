@@ -8,6 +8,7 @@ const MenuDemo: React.FC<{id:number, pageItemLanguage:number, pageItemType:strin
   const es = 1;
   const fr = 2;
 
+
   const [showDropDown, setShowDropDown] = useState<boolean>(false);
   const [selectCity, setSelectCity] = useState<string>("");
   const cities = () => {
@@ -89,7 +90,7 @@ let pageItemHeaderIndices:number[] = [];
 for (var i = 0; i < pageItemHeaderSplit.length; i++) {
   pageItemHeaderIndices.push(i);
 } 
-console.log("Problem is here:" + pageItemHeaderSplit)
+//console.log("Problem is here:" + pageItemHeaderSplit)
 
   return (
     <>
