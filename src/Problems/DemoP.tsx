@@ -867,7 +867,6 @@ return(
         */}
         </p>
         
-      {presentCheckIndicator}
       {/* add a type for MenuDemo (number,string,menu) Add (Header,Label,Footer) Add(button to render string format) Add (Number Format)
       note that global Option is an array 
       <MenuDemo id={0} pageItemLanguage={props.language} pageItemType="num" pageItemHeader={pageItemHeaderP[props.language]} pageItemFooter={pageItemFooterP[props.language]} menuSelectedOption={selectOption} globalOptionSelected={globalOption} optionsList = {optionsListBank[props.language][0]}/>
