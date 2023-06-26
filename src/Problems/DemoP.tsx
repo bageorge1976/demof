@@ -1,6 +1,6 @@
-import React, {Component} from "react";
+import React from "react";
 import { useEffect, useState } from 'react';
-import samplePDF from './P4.pdf';
+//import samplePDF from './P4.pdf';
 //import Menu from "./components/Menu";
 import MenuDemo from "../components/MenuDemo"
 //import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
@@ -12,191 +12,63 @@ export const DemoP: React.FC<{id:number, language:number}> = (props) => {
   const es = 1;
   const fr = 2;
 
-  let [counter,setCounter] = useState(0);
   const initOptionsG=Array(2).fill('');
   const [tempOption, setTempOption] = useState(initOptionsG);
-  //let globalOption:string[] = tempOption;
+  const initScore=Array(1).fill('');
+  const initCheck=Array(1).fill(0);
+  const [scoreReport, setScoreReport] = useState(initScore);
+  const [presentPageScore, setPresentPageScore]= useState(0);
+  const [presentCheckIndicator, setPresentCheckIndicator]=useState(initCheck);
 
-
-
-
-  let optionsCorrectBank:string[];
+  useEffect(() => {
+    
+    globalOption=tempOption;
   
-  /*
-  let optionsListBank=[
-    [
-    [
-    "English",   
-    "Equality means the same sets of points.",
-    "Equality means the same sides.", 
-    "The proof is based on the primary observation that triangles $$\\triangle BAM$$ and $$\\triangle CAM$$ are congruent", 
-    "The proof is based on the primary observation that triangles $$\\triangle AMB$$ and $$\\triangle CAM$$ are congruent",
-    "The proof is based on the primary observation that triangles $$\\triangle ABM$$ and $$\\triangle CAM$$ are congruent",
-    "The case of congruence is side-angle-side",
-    "The case of congruence is angle-side-angle",
-    "The case of congruence is side-side-side"
-  ],
-    ["English",
-    "The probability of such an occurence is $$P(e|s_1 )=P(H_2|s_1 ) = \\int_{-\\infty}^{\\gamma_0}p(z|s_1 )$$", 
-    "The probability of such an occurence is $$P(e|s_2 ) = P(H_1|s_2 ) = \\int_{\\gamma_0}^{\\infty}p(z|s_2  ) dz$$", 
-    "Combining the previous three equations, we can write: $$P_B = P(H_2|s_1 )P(s_1 ) + P(H_1|s_2 )P(s_2 )$$ ", 
-    "$$P_B = \\frac{1}{2}P(H_2|s_1 ) + \\frac{1}{2}P(H_1|s_2 )$$",
-    "$$P_B = P(H_2|s_1 ) = P(H_1|s_2 )$$",
-    "We can therefore compute $$P_B$$ by integrating $$p(z|s_1 )$$ between the limits $$-\\infty$$ and $$\\gamma_0$$, or as shown below, by integrating $$p(z|s_2  )$$ between the limits $$\\gamma_0$$ and $$\\infty$$: $$\\newline$$ $$P_B = \\int_{\\gamma_0=(a_1 + a_2 )/2}^{\\infty}p(z|s_2  ) dz$$",
-    "Replacing the likelihood $$p(z|s_2  )$$ with its Gaussian equivalent, we have:$$\\newline$$ $$P_B = \\int_{\\gamma_0=(a_1 + a_2 )/2}^{\\infty} \\frac{1}{\\sigma_0 \\sqrt{2 \\pi}} exp\\left[ -\\frac{1}{2}\\left(\\frac{z-a_2}{\\sigma_0} \\right)^2 \\right] dz$$",
-    "Let $$u=(z-a_2)/\\sigma_0$$. Then $$\\sigma_0 du = dz$$ and:$$\\newline$$ $$P_B = \\int_{\\gamma_0=(a_1 - a_2 )/2}^{u=\\infty}$$ $$\\frac{1}{\\sqrt{2 \\pi}}exp\\left( -\\frac{u^2}{2}\\right) du = Q \\left (\\frac{a_1 -a_2}{2\\sigma_0} \\right)$$",
-    "$$Q(x)= \\frac{1}{\\sqrt{2 \\pi}}\\int_{x}^{\\infty}  exp\\left( -\\frac{u^2}{2}\\right) du$$"
-  ],
-    [
-    "English",  
-    "Since M is the middle point of BC", 
-    "Since M is an arbitrary point on BC",
-    "To relate AM it is best to use the perpendicular from M to AB",
-    "To relate AM it is best to use the perpendicular from M to AC",
-    "Consider the similarity of these triangles and BM = BC/2", 
-    "The case of congruence is side-angle-side",
-    "The case of congruence is angle-side-angle",
-    "The case of congruence is side-side-side"
-  ],
-    [
-    "English",
-    "$$\\left(\\frac{S}{N} \\right)_T = \\frac{a_i^2}{\\sigma_0^2}$$", 
-    "We can express the signal, $$a(t)$$, at the filter output, $$\\newline$$ in terms of the filter transfer function, $$H(f)$$ (before optimization), and the Fourier transform of the input signal as follows: $$a(t) = \\int_{-\\infty}^{\\infty}H(f)S(f)e^{j2\\pi fT} df$$", 
-    "The input power spectral density, $$G_X(f)$$, and the output power spectral density, $$G_Y(f)$$, are related as follows: $$G_Y(f)=G_X(f)|H(f)|^2$$", 
-    "$$\\sigma_0^2 = \\frac{N_0}{2}\\int_{-\\infty}^{\\infty}|H(f)|^2 df$$", 
-    "$$\\left(\\frac{S}{N} \\right)_T = \\frac{\\left |\\int_{-\\infty}^{\\infty}H(f)S(f)e^{j2\\pi f_t} df\\right| }{\\frac{N_0}{2}\\int_{-\\infty}^{\\infty}|H(f)|^2 df}$$",
-    "$$\\left|\\int_{-\\infty}^{\\infty}H(f)S(f)e^{j2\\pi fT} df \\right|\\leq \\int_{-\\infty}^{\\infty}|H(f)|^2 df\\int_{-\\infty}^{\\infty}|S(f)|^2 df$$",
-    "$$\\left(\\frac{S}{N} \\right)_T \\leq \\frac{2}{N_0}\\int_{-\\infty}^{\\infty}|S(f)|^2 df$$",
-    "$$max \\left ( \\frac{S}{N} \\right )_T = \\frac{2E}{N_0}$$",
-    "$$H(f) = H_0(f) = k S^*(f)e^{-j2\pi fT}$$",
-    "$$h(t) = \\mathcal{F}^{-1}\\{kS^*(f)e^{-j2 \\pi f T}\\}$$",
-    "$$h(t) = \\begin{cases} ks(T-t), & \\text{ 0 ≤ t ≤ T} \\\\ 0, & \\text{elsewhere} \\end{cases}$$",
-    "Without the delay of $$T$$ seconds, the response, $$s(-t)$$, is unrealizable because it describes a response as a function of negative time."
-  ],
-  ],
-  [
-    [ 
-      "Espanol",
-      "Equality means the same sets of points.",
-      "Equality means the same sides.", 
-      "The proof is based on the primary observation that triangles $$\\triangle BAM$$ and $$\\triangle CAM$$ are congruent", 
-      "The proof is based on the primary observation that triangles $$\\triangle AMB$$ and $$\\triangle CAM$$ are congruent",
-      "The proof is based on the primary observation that triangles $$\\triangle ABM$$ and $$\\triangle CAM$$ are congruent",
-      "The case of congruence is side-angle-side",
-      "The case of congruence is angle-side-angle",
-      "The case of congruence is side-side-side"
-    ],
-      [
-      "Espanol",
-      "The probability of such an occurence is $$P(e|s_1 )=P(H_2|s_1 ) = \\int_{-\\infty}^{\\gamma_0}p(z|s_1 )$$", 
-      "The probability of such an occurence is $$P(e|s_2 ) = P(H_1|s_2 ) = \\int_{\\gamma_0}^{\\infty}p(z|s_2  ) dz$$", 
-      "Combining the previous three equations, we can write: $$P_B = P(H_2|s_1 )P(s_1 ) + P(H_1|s_2 )P(s_2 )$$ ", 
-      "$$P_B = \\frac{1}{2}P(H_2|s_1 ) + \\frac{1}{2}P(H_1|s_2 )$$",
-      "$$P_B = P(H_2|s_1 ) = P(H_1|s_2 )$$",
-      "We can therefore compute $$P_B$$ by integrating $$p(z|s_1 )$$ between the limits $$-\\infty$$ and $$\\gamma_0$$, or as shown below, by integrating $$p(z|s_2  )$$ between the limits $$\\gamma_0$$ and $$\\infty$$: $$\\newline$$ $$P_B = \\int_{\\gamma_0=(a_1 + a_2 )/2}^{\\infty}p(z|s_2  ) dz$$",
-      "Replacing the likelihood $$p(z|s_2  )$$ with its Gaussian equivalent, we have:$$\\newline$$ $$P_B = \\int_{\\gamma_0=(a_1 + a_2 )/2}^{\\infty} \\frac{1}{\\sigma_0 \\sqrt{2 \\pi}} exp\\left[ -\\frac{1}{2}\\left(\\frac{z-a_2}{\\sigma_0} \\right)^2 \\right] dz$$",
-      "Let $$u=(z-a_2)/\\sigma_0$$. Then $$\\sigma_0 du = dz$$ and:$$\\newline$$ $$P_B = \\int_{\\gamma_0=(a_1 - a_2 )/2}^{u=\\infty}$$ $$\\frac{1}{\\sqrt{2 \\pi}}exp\\left( -\\frac{u^2}{2}\\right) du = Q \\left (\\frac{a_1 -a_2}{2\\sigma_0} \\right)$$",
-      "$$Q(x)= \\frac{1}{\\sqrt{2 \\pi}}\\int_{x}^{\\infty}  exp\\left( -\\frac{u^2}{2}\\right) du$$"
-    ],
-      [
-      "Espanol",
-      "Since M is the middle point of BC", 
-      "Since M is an arbitrary point on BC",
-      "To relate AM it is best to use the perpendicular from M to AB",
-      "To relate AM it is best to use the perpendicular from M to AC",
-      "Consider the similarity of these triangles and BM = BC/2", 
-      "The case of congruence is side-angle-side",
-      "The case of congruence is angle-side-angle",
-      "The case of congruence is side-side-side"
-    ],
-      [
-      "Espanol",
-      "$$\\left(\\frac{S}{N} \\right)_T = \\frac{a_i^2}{\\sigma_0^2}$$", 
-      "We can express the signal, $$a(t)$$, at the filter output, $$\\newline$$ in terms of the filter transfer function, $$H(f)$$ (before optimization), and the Fourier transform of the input signal as follows: $$a(t) = \\int_{-\\infty}^{\\infty}H(f)S(f)e^{j2\\pi fT} df$$", 
-      "The input power spectral density, $$G_X(f)$$, and the output power spectral density, $$G_Y(f)$$, are related as follows: $$G_Y(f)=G_X(f)|H(f)|^2$$", 
-      "$$\\sigma_0^2 = \\frac{N_0}{2}\\int_{-\\infty}^{\\infty}|H(f)|^2 df$$", 
-      "$$\\left(\\frac{S}{N} \\right)_T = \\frac{\\left |\\int_{-\\infty}^{\\infty}H(f)S(f)e^{j2\\pi f_t} df\\right| }{\\frac{N_0}{2}\\int_{-\\infty}^{\\infty}|H(f)|^2 df}$$",
-      "$$\\left|\\int_{-\\infty}^{\\infty}H(f)S(f)e^{j2\\pi fT} df \\right|\\leq \\int_{-\\infty}^{\\infty}|H(f)|^2 df\\int_{-\\infty}^{\\infty}|S(f)|^2 df$$",
-      "$$\\left(\\frac{S}{N} \\right)_T \\leq \\frac{2}{N_0}\\int_{-\\infty}^{\\infty}|S(f)|^2 df$$",
-      "$$max \\left ( \\frac{S}{N} \\right )_T = \\frac{2E}{N_0}$$",
-      "$$H(f) = H_0(f) = k S^*(f)e^{-j2\pi fT}$$",
-      "$$h(t) = \\mathcal{F}^{-1}\\{kS^*(f)e^{-j2 \\pi f T}\\}$$",
-      "$$h(t) = \\begin{cases} ks(T-t), & \\text{ 0 ≤ t ≤ T} \\\\ 0, & \\text{elsewhere} \\end{cases}$$",
-      "Without the delay of $$T$$ seconds, the response, $$s(-t)$$, is unrealizable because it describes a response as a function of negative time."
-    ],
-  ],
-  [
-    [ 
-      "French",
-      "Equality means the same sets of points.",
-      "Equality means the same sides.", 
-      "The proof is based on the primary observation that triangles $$\\triangle BAM$$ and $$\\triangle CAM$$ are congruent", 
-      "The proof is based on the primary observation that triangles $$\\triangle AMB$$ and $$\\triangle CAM$$ are congruent",
-      "The proof is based on the primary observation that triangles $$\\triangle ABM$$ and $$\\triangle CAM$$ are congruent",
-      "The case of congruence is side-angle-side",
-      "The case of congruence is angle-side-angle",
-      "The case of congruence is side-side-side"
-    ],
-      [
-      "French",
-      "The probability of such an occurence is $$P(e|s_1 )=P(H_2|s_1 ) = \\int_{-\\infty}^{\\gamma_0}p(z|s_1 )$$", 
-      "The probability of such an occurence is $$P(e|s_2 ) = P(H_1|s_2 ) = \\int_{\\gamma_0}^{\\infty}p(z|s_2  ) dz$$", 
-      "Combining the previous three equations, we can write: $$P_B = P(H_2|s_1 )P(s_1 ) + P(H_1|s_2 )P(s_2 )$$ ", 
-      "$$P_B = \\frac{1}{2}P(H_2|s_1 ) + \\frac{1}{2}P(H_1|s_2 )$$",
-      "$$P_B = P(H_2|s_1 ) = P(H_1|s_2 )$$",
-      "We can therefore compute $$P_B$$ by integrating $$p(z|s_1 )$$ between the limits $$-\\infty$$ and $$\\gamma_0$$, or as shown below, by integrating $$p(z|s_2  )$$ between the limits $$\\gamma_0$$ and $$\\infty$$: $$\\newline$$ $$P_B = \\int_{\\gamma_0=(a_1 + a_2 )/2}^{\\infty}p(z|s_2  ) dz$$",
-      "Replacing the likelihood $$p(z|s_2  )$$ with its Gaussian equivalent, we have:$$\\newline$$ $$P_B = \\int_{\\gamma_0=(a_1 + a_2 )/2}^{\\infty} \\frac{1}{\\sigma_0 \\sqrt{2 \\pi}} exp\\left[ -\\frac{1}{2}\\left(\\frac{z-a_2}{\\sigma_0} \\right)^2 \\right] dz$$",
-      "Let $$u=(z-a_2)/\\sigma_0$$. Then $$\\sigma_0 du = dz$$ and:$$\\newline$$ $$P_B = \\int_{\\gamma_0=(a_1 - a_2 )/2}^{u=\\infty}$$ $$\\frac{1}{\\sqrt{2 \\pi}}exp\\left( -\\frac{u^2}{2}\\right) du = Q \\left (\\frac{a_1 -a_2}{2\\sigma_0} \\right)$$",
-      "$$Q(x)= \\frac{1}{\\sqrt{2 \\pi}}\\int_{x}^{\\infty}  exp\\left( -\\frac{u^2}{2}\\right) du$$"
-    ],
-      [
-      "French",
-      "Since M is the middle point of BC", 
-      "Since M is an arbitrary point on BC",
-      "To relate AM it is best to use the perpendicular from M to AB",
-      "To relate AM it is best to use the perpendicular from M to AC",
-      "Consider the similarity of these triangles and BM = BC/2", 
-      "The case of congruence is side-angle-side",
-      "The case of congruence is angle-side-angle",
-      "The case of congruence is side-side-side"
-    ],
-      [
-      "French",
-      "$$\\left(\\frac{S}{N} \\right)_T = \\frac{a_i^2}{\\sigma_0^2}$$", 
-      "We can express the signal, $$a(t)$$, at the filter output, $$\\newline$$ in terms of the filter transfer function, $$H(f)$$ (before optimization), and the Fourier transform of the input signal as follows: $$a(t) = \\int_{-\\infty}^{\\infty}H(f)S(f)e^{j2\\pi fT} df$$", 
-      "The input power spectral density, $$G_X(f)$$, and the output power spectral density, $$G_Y(f)$$, are related as follows: $$G_Y(f)=G_X(f)|H(f)|^2$$", 
-      "$$\\sigma_0^2 = \\frac{N_0}{2}\\int_{-\\infty}^{\\infty}|H(f)|^2 df$$", 
-      "$$\\left(\\frac{S}{N} \\right)_T = \\frac{\\left |\\int_{-\\infty}^{\\infty}H(f)S(f)e^{j2\\pi f_t} df\\right| }{\\frac{N_0}{2}\\int_{-\\infty}^{\\infty}|H(f)|^2 df}$$",
-      "$$\\left|\\int_{-\\infty}^{\\infty}H(f)S(f)e^{j2\\pi fT} df \\right|\\leq \\int_{-\\infty}^{\\infty}|H(f)|^2 df\\int_{-\\infty}^{\\infty}|S(f)|^2 df$$",
-      "$$\\left(\\frac{S}{N} \\right)_T \\leq \\frac{2}{N_0}\\int_{-\\infty}^{\\infty}|S(f)|^2 df$$",
-      "$$max \\left ( \\frac{S}{N} \\right )_T = \\frac{2E}{N_0}$$",
-      "$$H(f) = H_0(f) = k S^*(f)e^{-j2\pi fT}$$",
-      "$$h(t) = \\mathcal{F}^{-1}\\{kS^*(f)e^{-j2 \\pi f T}\\}$$",
-      "$$h(t) = \\begin{cases} ks(T-t), & \\text{ 0 ≤ t ≤ T} \\\\ 0, & \\text{elsewhere} \\end{cases}$$",
-      "Without the delay of $$T$$ seconds, the response, $$s(-t)$$, is unrealizable because it describes a response as a function of negative time."
-    ],
-  ]
-]; 
-*/
+  }, [tempOption]);
+  
+  useEffect(() => {
+      
+    let checkIndicator:number[] =[];
+    for (i=0;i<numberOfItems;i++)
+      checkIndicator.push(0);
+  
+    setPresentCheckIndicator(checkIndicator);
+    setPresentPageScore(0);
+  
+  }, [props.language]);
+
+  function scoreFunction(){
+    let pageScore:number = 0;
+    let checkIndicator:number[]=[];
+    for (i = 0; i < numberOfItems; i++) {
+        console.log(i);
+        console.log (globalOption[i]);
+        console.log (optionsListCorrect[props.language][i]);
+        if (pageItemType[i] ==="menu")
+          if (globalOption[i]===optionsListCorrect[props.language][i]) {pageScore++; checkIndicator[i]=1;}
+          else checkIndicator[i]=2; 
+        if (pageItemType[i] ==="num")
+          if ( Math.abs(parseFloat(globalOption[i])-parseFloat(optionsListCorrect[props.language][i]))<0.01) {pageScore++; checkIndicator[i]=1;}
+          else checkIndicator[i]=2;
+        console.log(pageMaxScore);
+      }
+    setPresentCheckIndicator(checkIndicator);
+    setPresentPageScore(pageScore);
+    setScoreReport(globalOption);
+  }
 
   const selectOption = (option: string, id:number, optionsSelected:string[]) => {
     optionsSelected[id] = option; 
     console.log("ID is:"+id);
-
-    //setTempOption([optionsSelected[0], optionsSelected[1] , optionsSelected[2], optionsSelected[3]]);
     
     //cheap way to duplicate the array
     const clone = optionsSelected.slice(0);
     setTempOption(clone);
-    //console.log(tempOption);
   };
 
 
 
 
-
-
-  //let headerTest = '<img src="../../home.png">';
 
 let pageMaxScore:number = 0;
 let numberOfItems:number = 0;
@@ -213,14 +85,6 @@ let pageUnit:string[] = [""];
 let pageTitle:string[] = [""];
 let pageSolutionAddress:string[] = [""];
 
-useEffect(() => {
-    
-  globalOption=tempOption;
-
-  //setCounter(++counter);
-  //console.log(counter.toString() + tempOption);
-
-}, [tempOption]);
 
 
 if(props.id === 1)
@@ -244,7 +108,7 @@ if(props.id === 1)
   pageItemHeaderP=
   [
   [
-    "Consider isosceles triangle<kaTex> $$\\triangle ABC$$ ($$AB \\cong AC$$)<kaTex>  and M the middle of BC as shown in Figure 1.<br/> Prove that<kaTex> $$AM \\perp BC$$. <kaTex> <div class='d-flex align-items-center'><img class='mx-auto' src=/triisosceles.png></div><div style='text-align:center;'><span>Figure 1. Isosceles triangle and median.</span></div>",
+    "Consider isosceles triangle<kaTex> $$\\triangle ABC$$ ($$AB \\cong AC$$)<kaTex> and M the middle of BC as shown in Figure 1.<br/> Prove that<kaTex> $$AM \\perp BC$$. <kaTex> <div class='d-flex align-items-center'><img class='mx-auto' src=/triisosceles.png></div><div style='text-align:center;'><span>Figure 1. Isosceles triangle and median.</span></div>",
     "The symbol <kaTex>$$\\cong$$<kaTex> means congruence that is same shape (measures) but not equality. <b>1.____</b> ",
     "<kaTex>$$AM \\perp BC$$<kaTex> means the measure of angle <kaTex>$$\\angle AMB$$<kaTex> is equal to the measure of angle <kaTex>$$\\angle AMC$$<kaTex> is equal to <kaTex>$$90^\\circ$$<kaTex>. <div><b>2.____</b></div>",
     "We have <kaTex>$$AB \\cong AC$$<kaTex> and <kaTex>$$BM \\cong MC$$<kaTex>. <b>3.____</b>",
@@ -252,20 +116,20 @@ if(props.id === 1)
     "We conclude: <kaTex>$$AM \\perp BC$$."
   ],
   [
-    "Por favor: Consider isosceles triangle<kaTex> $$\\triangle ABC$$ ($$AB \\cong AC$$)<kaTex>  and M the middle of BC as shown in Figure 1.<br/> Prove that<kaTex> $$AM \\perp BC$$. <kaTex> <div class='d-flex align-items-center'><img class='mx-auto' src=/triisosceles.png></div><div style='text-align:center;'><span>Figure 1. Isosceles triangle and median.</span></div>",
-    "The symbol <kaTex>$$\\cong$$<kaTex> means congruence that is same shape (measures) but not equality. <b>1.____</b> ",
-    "<kaTex>$$AM \\perp BC$$<kaTex> means the measure of angle <kaTex>$$\\angle AMB$$<kaTex> is equal to the measure of angle <kaTex>$$\\angle AMC$$<kaTex> is equal to <kaTex>$$90^\\circ$$<kaTex>. <div><b>2.____</b></div>",
-    "We have <kaTex>$$AB \\cong AC$$<kaTex> and <kaTex>$$BM \\cong MC$$<kaTex>. <b>3.____</b>",
-    "From the congruence of the triangles mentioned before we observe the congruence of the angles <kaTex>$$\\angle BMA$$<kaTex> and <kaTex>$$\\angle AMC$$<kaTex>.<div></div> The sum of (the measures of) these two congruent angles is <kaTex>$$180^\\circ$$<kaTex>.<br/> We deduce each of them has a measure of: <b>4.____</b> ",
-    "We conclude: <kaTex>$$AM \\perp BC$$."
+    "Se considera un triángulo isósceles<kaTex> $$\\triangle ABC$$ ($$AB \\cong AC$$)<kaTex> y M el medio de BC como se muestra en la Fig. 1.<br/> Demuestre que <kaTex>$$AM \\perp BC$$. <kaTex> <div class='d-flex align-items-center'><img class='mx-auto' src=/triisosceles.png></div><div style='text-align:center;'><span>Figura 1. Triángulo isósceles y mediana.</span></div>",
+    "El símbolo <kaTex>$$\\cong$$<kaTex> significa congruencia, tener la misma forma (medida) pero no igualdad. <b>1.____</b> ",
+    "<kaTex>$$AM \\perp BC$$<kaTex> significa que la medida del ángulo <kaTex>$$\\angle AMB$$<kaTex> es igual a la medida del ángulo <kaTex>$$\\angle AMC$$<kaTex> es igual a <kaTex>$$90^\\circ$$<kaTex>. <div><b>2.____</b></div>",
+    "Se observa que <kaTex>$$AB \\cong AC$$<kaTex> y <kaTex>$$BM \\cong MC$$<kaTex>. <b>3.____</b>",
+    "De la congruencia de los triángulos antes mencionados observamos la congruencia de los ángulos <kaTex>$$\\angle BMA$$<kaTex> y <kaTex>$$\\angle AMC$$<kaTex>.<div></div> La suma de (las medidas de) estos dos ángulos congruentes es <kaTex>$$180^\\circ$$<kaTex>.<br/> Se deduce cada uno de ellos tiene una medida de: <b>4.____</b> ",
+    "Se concluye: <kaTex>$$AM \\perp BC$$."
   ],
   [
-    "Si'l vous plait: Consider isosceles triangle<kaTex> $$\\triangle ABC$$ ($$AB \\cong AC$$)<kaTex>  and M the middle of BC as shown in Figure 1.<br/> Prove that<kaTex> $$AM \\perp BC$$. <kaTex> <div class='d-flex align-items-center'><img class='mx-auto' src=/triisosceles.png></div><div style='text-align:center;'><span>Figure 1. Isosceles triangle and median.</span></div>",
-    "The symbol <kaTex>$$\\cong$$<kaTex> means congruence that is same shape (measures) but not equality. <b>1.____</b> ",
-    "<kaTex>$$AM \\perp BC$$<kaTex> means the measure of angle <kaTex>$$\\angle AMB$$<kaTex> is equal to the measure of angle <kaTex>$$\\angle AMC$$<kaTex> is equal to <kaTex>$$90^\\circ$$<kaTex>. <div><b>2.____</b></div>",
-    "We have <kaTex>$$AB \\cong AC$$<kaTex> and <kaTex>$$BM \\cong MC$$<kaTex>. <b>3.____</b>",
-    "From the congruence of the triangles mentioned before we observe the congruence of the angles <kaTex>$$\\angle BMA$$<kaTex> and <kaTex>$$\\angle AMC$$<kaTex>.<div></div> The sum of (the measures of) these two congruent angles is <kaTex>$$180^\\circ$$<kaTex>.<br/> We deduce each of them has a measure of: <b>4.____</b> ",
-    "We conclude: <kaTex>$$AM \\perp BC$$."
+    "Considérons le triangle isocèle <kaTex>$$\\triangle ABC$$ ($$AB \\cong AC$$)<kaTex> et M au milieu de BC comme le montre la Fig. 1.<br/> Montrer que $AM \perp BC$.<kaTex> $$AM \\perp BC$$. <kaTex> <div class='d-flex align-items-center'><img class='mx-auto' src=/triisosceles.png></div><div style='text-align:center;'><span>Figure 1. Triangle isocèle et médiane.</span></div>",
+    "Le symbole <kaTex>$$\\cong$$<kaTex> signifie congruence qui est de même forme (mesures) mais pas d'égalité. <b>1.____</b> ",
+    "<kaTex>$$AM \\perp BC$$<kaTex> signifie que la mesure de l'angle <kaTex>$$\\angle AMB$$<kaTex> est égale à la mesure de l'angle <kaTex>$$\\angle AMC$$<kaTex> est égale à <kaTex>$$90^\\circ$$<kaTex>. <div><b>2.____</b></div>",
+    "On a <kaTex>$$AB \\cong AC$$<kaTex> et <kaTex>$$BM \\cong MC$$<kaTex>. <b>3.____</b>",
+    "A partir de la congruence des triangles mentionnés précédemment on observe la congruence des angles <kaTex>$$\\angle BMA$$<kaTex> et <kaTex>$$\\angle AMC$$<kaTex>.<div></div> La somme de (les mesures de) ces deux angles congruents est de <kaTex>$$180^\\circ$$<kaTex>.<br/> On en déduit que chacun d'eux a une mesure de: <b>4.____</b> ",
+    "On conclut: <kaTex>$$AM \\perp BC$$."
   ]
 ];
   pageItemFooterP=[
@@ -307,25 +171,25 @@ const solEn:string[]=[
 ];
 
 const solEs:string[]=[
-  "Español:Equality means the same sets of points.",
-  "Equality means the same sides.", 
-  "The proof is based on the primary observation that triangles $$\\triangle BAM$$ and $$\\triangle CAM$$ are congruent", 
-  "The proof is based on the primary observation that triangles $$\\triangle AMB$$ and $$\\triangle CAM$$ are congruent",
-  "The proof is based on the primary observation that triangles $$\\triangle ABM$$ and $$\\triangle CAM$$ are congruent",
-  "The case of congruence is side-angle-side",
-  "The case of congruence is angle-side-angle",
-  "The case of congruence is side-side-side"
+  "Igualdad significa los mismos conjuntos de puntos.",
+  "Igualdad significa los mismos lados.", 
+  "La demostración esta basada en la observación primaria de que los triángulos $$\\triangle BAM$$ y $$\\triangle CAM$$ son congruentes.", 
+  "La demostración esta basada en la observación primaria de que los triángulos $$\\triangle AMB$$ y $$\\triangle CAM$$ son congruentes.",
+  "La demostración esta basada en la observación primaria de que los triángulos $$\\triangle ABM$$ y $$\\triangle CAM$$ son congruentes.",
+  "El caso de congruencia es lado-ángulo-lado.",
+  "El caso de congruencia es ángulo-lado-ángulo.",
+  "El caso de congruencia es lado-lado-lado."
 ];
 
 const solFr:string[]=[
-  "Français: Equality means the same sets of points.",
-  "Equality means the same sides.", 
-  "The proof is based on the primary observation that triangles $$\\triangle BAM$$ and $$\\triangle CAM$$ are congruent", 
-  "The proof is based on the primary observation that triangles $$\\triangle AMB$$ and $$\\triangle CAM$$ are congruent",
-  "The proof is based on the primary observation that triangles $$\\triangle ABM$$ and $$\\triangle CAM$$ are congruent",
-  "The case of congruence is side-angle-side",
-  "The case of congruence is angle-side-angle",
-  "The case of congruence is side-side-side"
+  "L'égalité signifie les mêmes ensembles de points.",
+  "L'égalité signifie les mêmes côtés.", 
+  "La preuve est basée sur l'observation principale que les triangles $$\\triangle BAM$$ et $$\\triangle CAM$$ sont congruents.", 
+  "La preuve est basée sur l'observation principale que les triangles $$\\triangle AMB$$ et $$\\triangle CAM$$ sont congruents.",
+  "La preuve est basée sur l'observation principale que les triangles $$\\triangle ABM$$ et $$\\triangle CAM$$ sont congruents.",
+  "Le cas de la congruence est côté-angle-côté.",
+  "Le cas de la congruence est angle-côté-angle.",
+  "Le cas de la congruence est côté-côté-côté."
 ];
 
 optionsListBank=[
@@ -368,25 +232,25 @@ if(props.id === 2)
     "Consider the right angle triangle <kaTex>$$\\triangle ABC$$, $$m(\\angle A)=90^\\circ$$<kaTex> and <kaTex>$$M$$<kaTex> the middle of <kaTex>$$BC$$<kaTex> as shown in Figure 1.<br/> Prove that <kaTex>$$AM = \\frac{BC}{2}$$.<kaTex> <div class='d-flex align-items-center'><img class='mx-auto' src=/righttrimed.png></div><div style='text-align:center;'><span>Figure 1. Right angle triangle and median.</span></div>",
     "The proof will be completed by showing that <kaTex>$$\\triangle BAM$$<kaTex> is isosceles that is <kaTex>$$AM \\cong BM$$.<kaTex> <b>1.____</b>",
     "To prove that <kaTex>$$AM \\cong BM$$<kaTex> it is best to use an auxiliary construction. <b>2.____</b> <div class='d-flex align-items-center'><img class='mx-auto' src=/P2LEFT.png></div><br/><div class='d-flex align-items-center'><img class='mx-auto' src=/P2RIGHT.png></div><div style='text-align:center;'><span>Figure 2. Auxiliary construction choices.</span></div>",
-    "To prove that <kaTex>$$AM \\cong BM$$<kaTex> the most helpful pair of similar triangles is: <kaTex>$$\\triangle ABC$$<kaTex> and <kaTex>$$\\triangle EBM$$.<kaTex><br/> <b>3.____</b>. This implies E is the middle point of AB.",
+    "To prove that <kaTex>$$AM \\cong BM$$<kaTex>, the most helpful pair of similar triangles is: <kaTex>$$\\triangle ABC$$<kaTex> and <kaTex>$$\\triangle EBM$$.<kaTex><br/> <b>3.____</b>. This implies E is the middle point of AB.",
     "Because <kaTex>$$AE \\cong BE$$<kaTex> and they have a right angle it can be stated that triangle <kaTex>$$\\triangle AEM$$<kaTex> is congruent with <kaTex>$$\\triangle BEM$$<kaTex>.<br/><b>4.____</b>",
     "One of the consequences of the triangles congruence is that <kaTex>$$AM \\cong BM$$.<kaTex><br/>We conclude: <kaTex>$$AM = BM = \\frac{BC}{2}$$",
   ],
   [
-    "Por favor:Consider the right angle triangle <kaTex>$$\\triangle ABC$$, $$m(\\angle A)=90^\\circ$$<kaTex> and <kaTex>$$M$$<kaTex> the middle of <kaTex>$$BC$$<kaTex> as shown in Figure 1.<br/> Prove that <kaTex>$$AM = \\frac{BC}{2}$$.<kaTex> <div class='d-flex align-items-center'><img class='mx-auto' src=/righttrimed.png></div><div style='text-align:center;'><span>Figure 1. Right angle triangle and median.</span></div>",
-    "The proof will be completed by showing that <kaTex>$$\\triangle BAM$$<kaTex> is isosceles that is <kaTex>$$AM \\cong BM$$.<kaTex> <b>1.____</b>",
-    "To prove that <kaTex>$$AM \\cong BM$$<kaTex> it is best to use an auxiliary construction. <b>2.____</b> <div class='d-flex align-items-center'><img class='mx-auto' src=/P2LEFT.png></div><br/><div class='d-flex align-items-center'><img class='mx-auto' src=/P2RIGHT.png></div><div style='text-align:center;'><span>Figure 2. Auxiliary construction choices.</span></div>",
-    "To prove that <kaTex>$$AM \\cong BM$$<kaTex> the most helpful pair of similar triangles is: <kaTex>$$\\triangle ABC$$<kaTex> and <kaTex>$$\\triangle EBM$$.<kaTex><br/> <b>3.____</b>. This implies E is the middle point of AB.",
-    "Because <kaTex>$$AE \\cong BE$$<kaTex> and they have a right angle it can be stated that triangle <kaTex>$$\\triangle AEM$$<kaTex> is congruent with <kaTex>$$\\triangle BEM$$<kaTex>.<br/><b>4.____</b>",
-    "One of the consequences of the triangles congruence is that <kaTex>$$AM \\cong BM$$.<kaTex><br/>We conclude: <kaTex>$$AM = BM = \\frac{BC}{2}$$",
+    "Se considera un triángulo rectángulo  <kaTex>$$\\triangle ABC$$, $$m(\\angle A)=90^\\circ$$<kaTex> y <kaTex>$$M$$<kaTex> el medio de <kaTex>$$BC$$<kaTex> como se muestra en la Fig. 1.<br/> Demuestre que <kaTex>$$AM = \\frac{BC}{2}$$.<kaTex> <div class='d-flex align-items-center'><img class='mx-auto' src=/righttrimed.png></div><div style='text-align:center;'><span>Figura 1. Triángulo rectángulo y mediana.</span></div>",
+    "La demostración se completará mostrando que <kaTex>$$\\triangle BAM$$<kaTex> es isósceles, es decir, <kaTex>$$AM \\cong BM$$.<kaTex> <b>1.____</b>",
+    "Para probar que <kaTex>$$AM \\cong BM$$<kaTex> es mejor usar una construcción auxiliar. <b>2.____</b> <div class='d-flex align-items-center'><img class='mx-auto' src=/P2LEFT.png></div><br/><div class='d-flex align-items-center'><img class='mx-auto' src=/P2RIGHT.png></div><div style='text-align:center;'><span>Figura 2. Opciones de condiciones auxiliares.</span></div>",
+    "Para probar que <kaTex>$$AM \\cong BM$$<kaTex>, el par de triángulos similares más útil es: <kaTex>$$\\triangle ABC$$<kaTex> y <kaTex>$$\\triangle EBM$$.<kaTex><br/> <b>3.____</b>. Esto implica que $E$ es el punto medio de $AB$.",
+    "Como <kaTex>$$AE \\cong BE$$<kaTex> y tienen un ángulo recto se puede inferir que el triángulo <kaTex>$$\\triangle AEM$$<kaTex> es congruente con <kaTex>$$\\triangle BEM$$<kaTex>.<br/><b>4.____</b>",
+    "Una de las consecuencias de la congruencia de triángulos es que <kaTex>$$AM \\cong BM$$.<kaTex><br/>Se concluye: <kaTex>$$AM = BM = \\frac{BC}{2}$$",
   ],
   [
-    "Si'l vous plait:Consider the right angle triangle <kaTex>$$\\triangle ABC$$, $$m(\\angle A)=90^\\circ$$<kaTex> and <kaTex>$$M$$<kaTex> the middle of <kaTex>$$BC$$<kaTex> as shown in Figure 1.<br/> Prove that <kaTex>$$AM = \\frac{BC}{2}$$.<kaTex> <div class='d-flex align-items-center'><img class='mx-auto' src=/righttrimed.png></div><div style='text-align:center;'><span>Figure 1. Right angle triangle and median.</span></div>",
-    "The proof will be completed by showing that <kaTex>$$\\triangle BAM$$<kaTex> is isosceles that is <kaTex>$$AM \\cong BM$$.<kaTex> <b>1.____</b>",
-    "To prove that <kaTex>$$AM \\cong BM$$<kaTex> it is best to use an auxiliary construction. <b>2.____</b> <div class='d-flex align-items-center'><img class='mx-auto' src=/P2LEFT.png></div><br/><div class='d-flex align-items-center'><img class='mx-auto' src=/P2RIGHT.png></div><div style='text-align:center;'><span>Figure 2. Auxiliary construction choices.</span></div>",
-    "To prove that <kaTex>$$AM \\cong BM$$<kaTex> the most helpful pair of similar triangles is: <kaTex>$$\\triangle ABC$$<kaTex> and <kaTex>$$\\triangle EBM$$.<kaTex><br/> <b>3.____</b>. This implies E is the middle point of AB.",
-    "Because <kaTex>$$AE \\cong BE$$<kaTex> and they have a right angle it can be stated that triangle <kaTex>$$\\triangle AEM$$<kaTex> is congruent with <kaTex>$$\\triangle BEM$$<kaTex>.<br/><b>4.____</b>",
-    "One of the consequences of the triangles congruence is that <kaTex>$$AM \\cong BM$$.<kaTex><br/>We conclude: <kaTex>$$AM = BM = \\frac{BC}{2}$$",
+    "Considérez le triangle rectangle <kaTex>$$\\triangle ABC$$, $$m(\\angle A)=90^\\circ$$<kaTex> et <kaTex>$$M$$<kaTex> le milieu de <kaTex>$$BC$$<kaTex> comme indiqué dans la Fig. 1.<br/> Démontre que <kaTex>$$AM = \\frac{BC}{2}$$.<kaTex> <div class='d-flex align-items-center'><img class='mx-auto' src=/righttrimed.png></div><div style='text-align:center;'><span>Figure 1. Triangle rectangle et médiane.</span></div>",
+    "La preuve sera complétée en montrant que <kaTex>$$\\triangle BAM$$<kaTex> est isocèle c'est-à-dire <kaTex>$$AM \\cong BM$$.<kaTex> <b>1.____</b>",
+    "Pour prouver que <kaTex>$$AM \\cong BM$$<kaTex> il est préférable d'utiliser une construction auxiliaire. <b>2.____</b> <div class='d-flex align-items-center'><img class='mx-auto' src=/P2LEFT.png></div><br/><div class='d-flex align-items-center'><img class='mx-auto' src=/P2RIGHT.png></div><div style='text-align:center;'><span>Figure 2. Auxiliary construction choices.</span></div>",
+    "Pour prouver que <kaTex>$$AM \\cong BM$$<kaTex>, la paire de triangles semblables la plus utile est: <kaTex>$$\\triangle ABC$$<kaTex> et <kaTex>$$\\triangle EBM$$.<kaTex><br/> <b>3.____</b>. Cela implique que E est le milieu de AB.",
+    "Comme <kaTex>$$AE \\cong BE$$<kaTex> et qu'ils ont un angle droit, on peut affirmer que le triangle <kaTex>$$\\triangle AEM$$<kaTex> est congru à <kaTex>$$\\triangle BEM$$<kaTex>.<br/><b>4.____</b>",
+    "Une des conséquences de la congruence des triangles est que <kaTex>$$AM \\cong BM$$.<kaTex><br/>On en conclut: <kaTex>$$AM = BM = \\frac{BC}{2}$$",
 
   ]
 ];
@@ -418,36 +282,36 @@ if(props.id === 2)
 ];
 
 const solEn:string[]=[  
-  "Since M is the middle point of BC we will conclude $$AM = BM = \\frac{BC}{2}$$.", 
+  "Since M is the middle point of we will conclude $$AM = BM = \\frac{BC}{\\textcolor{red}{2}}$$.", 
   "Since M is an arbitrary point on BC we will conclude $$AM = BM = \\frac{BC}{2}$$.",
   "To relate AM it is best to use the perpendicular from M to AB.",
   "To relate AM it is best to use the perpendicular from M to AC.",
-  "Consider the similarity of these triangles and BM = BC/2.", 
+  "Consider the similarity of these triangles and $$BM = \\frac{BC}{2}$$.", 
   "The case of congruence is side-angle-side.",
   "The case of congruence is angle-side-angle.",
   "The case of congruence is side-side-side."
 ];
 
 const solEs:string[]=[
-  "Español:Since M is the middle point of BC we will conclude $$AM = BM = \\frac{BC}{2}$$.", 
-  "Since M is an arbitrary point on BC we will conclude $$AM = BM = \\frac{BC}{2}$$.",
-  "To relate AM it is best to use the perpendicular from M to AB.",
-  "To relate AM it is best to use the perpendicular from M to AC.",
-  "Consider the similarity of these triangles and BM = BC/2.", 
-  "The case of congruence is side-angle-side.",
-  "The case of congruence is angle-side-angle.",
-  "The case of congruence is side-side-side."
+  "Como $$M$$ es el punto medio de $$BC$$, se concluirá que $$AM = BM = \\frac{BC}{2}$$.", 
+  "Como $$M$$ es un punto arbitrario de $$BC$$, se concluirá que $$AM = BM = \\frac{BC}{2}$$.",
+  "Para relacionar $$AM$$ y $$BM$$ es mejor usar la perpendicular de $$M$$ a $$AB$$",
+  "Para relacionar $$AM$$ y $$BM$$ es mejor usar la perpendicular de $$M$$ a $$AC$$",
+  "Considere la similitud de estos triángulos y $$BM = \\frac{BC}{2}$$.", 
+  "El caso de congruencia observado es lado-ángulo-lado.",
+  "El caso de congruencia observado es ángulo-lado-ángulo.",
+  "El caso de congruencia observado es lado-lado-lado."
 ];
 
 const solFr:string[]=[
-  "Français:Since M is the middle point of BC we will conclude $$AM = BM = \\frac{BC}{2}$$", 
-  "Since M is an arbitrary point on BC we will conclude $$AM = BM = \\frac{BC}{2}$$",
-  "To relate AM it is best to use the perpendicular from M to AB.",
-  "To relate AM it is best to use the perpendicular from M to AC.",
-  "Consider the similarity of these triangles and BM = BC/2.", 
-  "The case of congruence is side-angle-side.",
-  "The case of congruence is angle-side-angle.",
-  "The case of congruence is side-side-side."
+  "Puisque M est le milieu de BC on conclura $$AM = BM = \\frac{BC}{2}$$", 
+  "Puisque M est arbirtraire sur BC on conclura $$AM = BM = \\frac{BC}{2}$$",
+  "Pour relier $AM$ et $BM$, il est préférable utiliser la perpendiculaire de M à AB.",
+  "Pour relier $AM$ et $BM$, il est préférable utiliser la perpendiculaire de M à AC.",
+  "Considérez la similitude de ces triangles et $$BM = \\frac{BC}{2}$$.", 
+  "Le cas de congruence observé est côté-angle-côté.",
+  "Le cas de congruence observé est angle-côté-angle.",
+  "Le cas de congruence observé est côté-côté-côté."
 ];
 
 optionsListBank=[
@@ -475,7 +339,7 @@ if(props.id === 3)
  }
 
  pageSolutionAddress = ["/P3en.pdf","/P3es.pdf","/P3fr.pdf"];
- pageCourse = ["Electrical Engineering Digital Communications","es:Electrical Engineering Digital Communications","fr:Electrical Engineering Digital Communications"];
+ pageCourse = ["Electrical Engineering Digital Communications","Ingeniería Eléctrica Comunicaciones Digitales","Génie Électrique Communications Numériques"];
  pageUnit = ["Introduction", "Introducción", "Introduction"];
  pageTitle = ["P1. Error Probability","P1. Probabilidad de error","P1. Probabilité d'erreur"];
   
@@ -493,34 +357,34 @@ if(props.id === 3)
     "The probability of an error is the sum of the probabilities of all the ways that an error can occur. For the binary case, we can express the probability of bit error, <kaTex>$$P_B$$<kaTex>, as follows:<kaTex>$$P_B = \\sum_{i=1}^2 P(e, s_i )$$<kaTex>. <b>3.____</b>",
     "That is, given that signal <kaTex>$$s_1 (t)$$<kaTex> was transmitted, an error results if hypothesis <kaTex>$$H_2$$<kaTex> is chosen, or given that the signal <kaTex>$$s_2 (t)$$<kaTex> was transmitted, an error results if hypothesis <kaTex>$$H_1$$<kaTex> is chosen. For the case where the a priori probabilities are equal, that is, <kaTex>$$P(s_1 )= P(s_2 ) = \\frac{1}{2}$$,<kaTex> <b>4.____</b>",
     "and because of the symmetry of the probability density functions: <b>5.____</b>",
-    "The probability of a bit error, <kaTex>$$P_B$$<kaTex>, is numerically equal to the area under the \"tail\" of either likelihood function,<kaTex>$$p(z|s_1)$$<kaTex> or <kaTex>$$p(z|s_2)$$<kaTex>, falling on the \"incorrect\" side of the threshold. <b>6.____</b>",
+    "The probability of a bit error, <kaTex>$$P_B$$<kaTex>, is numerically equal to the area under the \"tail\" of either likelihood function, <kaTex>$$p(z|s_1)$$<kaTex> o <kaTex>$$p(z|s_2)$$<kaTex>, falling on the \"incorrect\" side of the threshold. <b>6.____</b>",
     "where <kaTex>$$\\gamma_0 = (a_1 + a_2 )/2$$<kaTex> is the optimum threshold from  Figure 1.<b>7.____</b> where <kaTex>$$\\sigma_0^2$$<kaTex> is the variance of the noise out of the correlator.",
     "Let <kaTex>$$u=(z-a_2)/\\sigma_0$$<kaTex>. Then <kaTex>$$\\sigma_0 du = dz$$<kaTex> and: <b>8.____</b>",
-    "where <kaTex>$$Q(x)$$<kaTex> where <kaTex>$$Q(x)$$<kaTex>, called the complementary error function or co-error function, is a commonly used symbol for the probability under the tails of the Gaussian distribution. It is defined as: <b>9.____</b>"
+    "where <kaTex>$$Q(x)$$<kaTex>, called the complementary error function or co-error function, is a commonly used symbol for the probability under the tails of the Gaussian distribution. It is defined as: <b>9.____</b>"
+  ],
+  [
+    "<div class='d-flex align-items-center'><img width='90%' class='mx-auto' src=/Probp1p2.png></div><div style='text-align:center;'>Figura 1. Funciones de densidad de probabilidad condicional: p(z|s<sub>1</sub>) and p(z|s<sub>2</sub>)</div><p></p>",
+    "Para el ejemplo binario de la Fig. 1, hay dos formas en las que pueden ocurrir errores. Se producirá un error, e, cuando se envía <kaTex>$$s_1(t)$$<kaTex>, y el ruido del canal da como resultado que la señal de salida del receptor <kaTex>$$z(T)$$<kaTex>, sea menor que <kaTex>$$\\gamma_0$$.<kaTex><b>1.____</b>",
+    "Esto se ilustra mediante el área sombreada a la izquierda de <kaTex>$$\\gamma_0$$<kaTex> en la Fig. 1.  De manera similar, ocurre un error cuando <kaTex>$$s_2(t)$$<kaTex> es enviado y el ruido del canal resulta en que <kaTex>$$z(T)$$<kaTex>, siendo mayor que <kaTex>$$\\gamma_0$$<kaTex>. <b>2.____</b>",
+    "La probabilidad de un error es la suma de las probabilidades de todas las formas en que puede ocurrir un error. En el caso binario, se puede expresar la probabilidad de error de bit, <kaTex>$$P_B$$<kaTex>, de la siguiente manera: <kaTex>$$P_B = \\sum_{i=1}^2 P(e, s_i )$$<kaTex>. <b>3.____</b>",
+    "Es decir, dado que se transmitió la señal <kaTex>$$s_1 (t)$$<kaTex>, resulta un error si se elige la hipótesis <kaTex>$$H_2$$<kaTex>, o si se da que se transmitió la señal <kaTex>$$s_2 (t)$$<kaTex>, se produce un error si se elige la hipótesis <kaTex>$$H_1$$<kaTex>. Para el caso en que el las probabilidades a priori son iguales, es decir, <kaTex>$$P(s_1 )= P(s_2 ) = \\frac{1}{2}$$,<kaTex> <b>4.____</b>",
+    "y debido a la simetría de las funciones de densidad de probabilidad: <b>5.____</b>",
+    "La probabilidad de un error de bit, <kaTex>$$P_B$$<kaTex>, es numéricamente igual al área bajo la \"cola\" de cualquiera de las funciones de probabilidad,<kaTex>$$p(z|s_1)$$<kaTex> o <kaTex>$$p(z|s_2)$$<kaTex>, cayendo en el lado \"incorrecto\" del umbral. <b>6.____</b>",
+    "donde <kaTex>$$\\gamma_0 = (a_1 + a_2 )/2$$<kaTex> es el umbral óptimo de la Fig. 1. <b>7.____</b> donde <kaTex>$$\\sigma_0^2$$<kaTex> es la varianza del ruido fuera del correlacionador.",
+    "Sea <kaTex>$$u=(z-a_2)/\\sigma_0$$<kaTex>. Entonces <kaTex>$$\\sigma_0 du = dz$$<kaTex> y: <b>8.____</b>",
+    "donde <kaTex>$$Q(x)$$<kaTex>, llamada función de error complementaria o función de co-error, es un símbolo de uso común para la probabilidad bajo las colas de la distribución gaussiana. Se define como: <b>9.____</b>"
   ],
   [
     "<div class='d-flex align-items-center'><img width='90%' class='mx-auto' src=/Probp1p2.png></div><div style='text-align:center;'>Figure 1. Conditional probability density functions: p(z|s<sub>1</sub>) and p(z|s<sub>2</sub>)</div><p></p>",
-    "Por favor: For the binary example in Figure 1, there are two ways in which errors can occur. An error, e, will occur when <kaTex>$$s_1(t)$$<kaTex> is sent, and channel noise results in the receiver output signal <kaTex>$$z(T)$$<kaTex>, being less than <kaTex>$$\\gamma_0$$.<kaTex><b>1.____</b>",
-    "This is illustrated by the shaded area to the left of <kaTex>$$\\gamma_0$$<kaTex> in Figure 1. Similarly an error occurs when <kaTex>$$s_2(t)$$<kaTex> is sent and the channel noise results in <kaTex>$$z(T)$$<kaTex>, being greater than <kaTex>$$\\gamma_0$$<kaTex>. <b>2.____</b>",
-    "The probability of an error is the sum of the probabilities of all the ways that an error can occur. For the binary case, we can express the probability of bit error, <kaTex>$$P_B$$<kaTex>, as follows:<kaTex>$$P_B = \\sum_{i=1}^2 P(e, s_i )$$<kaTex>. <b>3.____</b>",
-    "That is, given that signal <kaTex>$$s_1 (t)$$<kaTex> was transmitted, an error results if hypothesis <kaTex>$$H_2$$<kaTex> is chosen, or given that the signal <kaTex>$$s_2 (t)$$<kaTex> was transmitted, an error results if hypothesis <kaTex>$$H_1$$<kaTex> is chosen. For the case where the a priori probabilities are equal, that is, <kaTex>$$P(s_1 )= P(s_2 ) = \\frac{1}{2}$$,<kaTex> <b>4.____</b>",
-    "and because of the symmetry of the probability density functions: <b>5.____</b>",
-    "The probability of a bit error, <kaTex>$$P_B$$<kaTex>, is numerically equal to the area under the \"tail\" of either likelihood function,<kaTex>$$p(z|s_1)$$<kaTex> or <kaTex>$$p(z|s_2)$$<kaTex>, falling on the \"incorrect\" side of the threshold. <b>6.____</b>",
-    "where <kaTex>$$\\gamma_0 = (a_1 + a_2 )/2$$<kaTex> is the optimum threshold from  Figure 1.<b>7.____</b> where <kaTex>$$\\sigma_0^2$$<kaTex> is the variance of the noise out of the correlator.",
-    "Let <kaTex>$$u=(z-a_2)/\\sigma_0$$<kaTex>. Then <kaTex>$$\\sigma_0 du = dz$$<kaTex> and: <b>8.____</b>",
-    "where <kaTex>$$Q(x)$$<kaTex> where <kaTex>$$Q(x)$$<kaTex>, called the complementary error function or co-error function, is a commonly used symbol for the probability under the tails of the Gaussian distribution. It is defined as: <b>9.____</b>"
-  ],
-  [
-    "<div class='d-flex align-items-center'><img width='90%' class='mx-auto' src=/Probp1p2.png></div><div style='text-align:center;'>Figure 1. Conditional probability density functions: p(z|s<sub>1</sub>) and p(z|s<sub>2</sub>)</div><p></p>",
-    "S'il vous plait: For the binary example in Figure 1, there are two ways in which errors can occur. An error, e, will occur when <kaTex>$$s_1(t)$$<kaTex> is sent, and channel noise results in the receiver output signal <kaTex>$$z(T)$$<kaTex>, being less than <kaTex>$$\\gamma_0$$.<kaTex><b>1.____</b>",
-    "This is illustrated by the shaded area to the left of <kaTex>$$\\gamma_0$$<kaTex> in Figure 1. Similarly an error occurs when <kaTex>$$s_2(t)$$<kaTex> is sent and the channel noise results in <kaTex>$$z(T)$$<kaTex>, being greater than <kaTex>$$\\gamma_0$$<kaTex>. <b>2.____</b>",
-    "The probability of an error is the sum of the probabilities of all the ways that an error can occur. For the binary case, we can express the probability of bit error, <kaTex>$$P_B$$<kaTex>, as follows:<kaTex>$$P_B = \\sum_{i=1}^2 P(e, s_i )$$<kaTex>. <b>3.____</b>",
-    "That is, given that signal <kaTex>$$s_1 (t)$$<kaTex> was transmitted, an error results if hypothesis <kaTex>$$H_2$$<kaTex> is chosen, or given that the signal <kaTex>$$s_2 (t)$$<kaTex> was transmitted, an error results if hypothesis <kaTex>$$H_1$$<kaTex> is chosen. For the case where the a priori probabilities are equal, that is, <kaTex>$$P(s_1 )= P(s_2 ) = \\frac{1}{2}$$,<kaTex> <b>4.____</b>",
-    "and because of the symmetry of the probability density functions: <b>5.____</b>",
-    "The probability of a bit error, <kaTex>$$P_B$$<kaTex>, is numerically equal to the area under the \"tail\" of either likelihood function,<kaTex>$$p(z|s_1)$$<kaTex> or <kaTex>$$p(z|s_2)$$<kaTex>, falling on the \"incorrect\" side of the threshold. <b>6.____</b>",
-    "where <kaTex>$$\\gamma_0 = (a_1 + a_2 )/2$$<kaTex> is the optimum threshold from  Figure 1.<b>7.____</b> where <kaTex>$$\\sigma_0^2$$<kaTex> is the variance of the noise out of the correlator.",
-    "Let <kaTex>$$u=(z-a_2)/\\sigma_0$$<kaTex>. Then <kaTex>$$\\sigma_0 du = dz$$<kaTex> and: <b>8.____</b>",
-    "where <kaTex>$$Q(x)$$<kaTex> where <kaTex>$$Q(x)$$<kaTex>, called the complementary error function or co-error function, is a commonly used symbol for the probability under the tails of the Gaussian distribution. It is defined as: <b>9.____</b>"
+    "Pour l'exemple binaire de la Fig. 1, , les erreurs peuvent se produire de deux manières. Une erreur, e, , se produira lorsque <kaTex>$$s_1(t)$$<kaTex> est envoyé, et le bruit de canal a pour résultat que le signal de sortie du récepteur <kaTex>$$z(T)$$<kaTex>, est inférieur à <kaTex>$$\\gamma_0$$.<kaTex><b>1.____</b>",
+    "Ceci est illustré par la zone ombrée à gauche de <kaTex>$$\\gamma_0$$<kaTex> sur la Fig. 1. De même, une erreur se produit lorsque <kaTex>$$s_2(t)$$<kaTex> est émis et le bruit de canal se traduit par<kaTex>$$z(T)$$<kaTex>, supérieur à <kaTex>$$\\gamma_0$$<kaTex>. <b>2.____</b>",
+    "La probabilité d'une erreur est la somme des probabilités de toutes les façons dont une erreur peut se produire. Dans le cas binaire, nous pouvons exprimer la probabilité d'erreur sur les bits, <kaTex>$$P_B$$<kaTex>, comme suit: <kaTex>$$P_B = \\sum_{i=1}^2 P(e, s_i )$$<kaTex>. <b>3.____</b>",
+    "Autrement dit, étant donné que le signal <kaTex>$$s_1 (t)$$<kaTex> a été transmis, une erreur se produit si l'hypothèse <kaTex>$$H_2$$<kaTex> est choisie, ou donnée que le signal <kaTex>$$s_2 (t)$$<kaTex> $ a été transmis, une erreur se produit si l'hypothèse <kaTex>$$H_1$$<kaTex> est choisie. Pour le cas où les probabilités a priori sont égales, c'est-à-dire que <kaTex>$$P(s_1 )= P(s_2 ) = \\frac{1}{2}$$,<kaTex> <b>4.____</b>",
+    "et à cause de la symétrie des fonctions de densité de probabilité: <b>5.____</b>",
+    "La probabilité d'une erreur binaire, <kaTex>$$P_B$$<kaTex>, est numériquement égale à la zone sous la \"queue\" de l'une ou l'autre probabilité fonction, <kaTex>$$p(z|s_1)$$<kaTex> ou <kaTex>$$p(z|s_2)$$<kaTex>$, tombant du côté \"incorrect\" du seuil. On peut donc calculer <b>6.____</b>",
+    "où <kaTex>$$\\gamma_0 = (a_1 + a_2 )/2$$<kaTex> est le seuil optimal de la Fig. 1.<b>7.____</b> where <kaTex>$$\\sigma_0^2$$<kaTex> où $\sigma_0^2$ est la variance du bruit sortant du corrélateur.",
+    "Soit <kaTex>$$u=(z-a_2)/\\sigma_0$$<kaTex>. Alors <kaTex>$$\\sigma_0 du = dz$$<kaTex> et: <b>8.____</b>",
+    "où <kaTex>$$Q(x)$$<kaTex>, appelée fonction d'erreur complémentaire ou fonction de co-erreur, est un symbole couramment utilisé pour la probabilité sous les queues de la distribution gaussienne. Il est défini comme: <b>9.____</b>"
   ]
 ];
   pageItemFooterP=[
@@ -563,40 +427,40 @@ if(props.id === 3)
 ];
 
 const solEn:string[]=[
-  "The probability of such an occurence is $$P(e|s_1 )=P(H_2|s_1 ) = \\int_{-\\infty}^{\\gamma_0}p(z|s_1 )$$", 
-  "The probability of such an occurence is $$P(e|s_2 ) = P(H_1|s_2 ) = \\int_{\\gamma_0}^{\\infty}p(z|s_2  ) dz$$", 
+  "The probability of such an occurence is: $$P(e|s_1 )=P(H_2|s_1 ) = \\int_{-\\infty}^{\\gamma_0}p(z|s_1 )$$", 
+  "The probability of such an occurence is: $$P(e|s_2 ) = P(H_1|s_2 ) = \\int_{\\gamma_0}^{\\infty}p(z|s_2  ) dz$$", 
   "Combining the previous three equations, we can write: $$P_B = P(H_2|s_1 )P(s_1 ) + P(H_1|s_2 )P(s_2 )$$ ", 
   "$$P_B = \\frac{1}{2}P(H_2|s_1 ) + \\frac{1}{2}P(H_1|s_2 )$$",
   "$$P_B = P(H_2|s_1 ) = P(H_1|s_2 )$$",
   "We can therefore compute $$P_B$$ by integrating $$p(z|s_1 )$$ between the limits $$-\\infty$$ and $$\\gamma_0$$, or as shown below, by integrating $$p(z|s_2  )$$ between the limits $$\\gamma_0$$ and $$\\infty$$: $$\\newline$$ $$P_B = \\int_{\\gamma_0=(a_1 + a_2 )/2}^{\\infty}p(z|s_2  ) dz$$",
   "Replacing the likelihood $$p(z|s_2  )$$ with its Gaussian equivalent, we have:$$\\newline$$ $$P_B = \\int_{\\gamma_0=(a_1 + a_2 )/2}^{\\infty} \\frac{1}{\\sigma_0 \\sqrt{2 \\pi}} exp\\left[ -\\frac{1}{2}\\left(\\frac{z-a_2}{\\sigma_0} \\right)^2 \\right] dz$$",
-  "$$P_B = \\int_{\\gamma_0=(a_1 - a_2 )/2}^{u=\\infty}$$ $$\\frac{1}{\\sqrt{2 \\pi}}exp\\left( -\\frac{u^2}{2}\\right) du = Q \\left (\\frac{a_1 -a_2}{2\\sigma_0} \\right)$$",
+  "$$P_B = \\int_{u=(a_1 - a_2 )/(2\\sigma_0)}^{u=\\infty}$$ $$\\frac{1}{\\sqrt{2 \\pi}}exp\\left( -\\frac{u^2}{2}\\right) du = Q \\left (\\frac{a_1 -a_2}{2\\sigma_0} \\right)$$",
   "$$Q(x)= \\frac{1}{\\sqrt{2 \\pi}}\\int_{x}^{\\infty}  exp\\left( -\\frac{u^2}{2}\\right) du$$"
 ]
 
 
 const solEs:string[]=[
-  "Español:The probability of such an occurence is $$P(e|s_1 )=P(H_2|s_1 ) = \\int_{-\\infty}^{\\gamma_0}p(z|s_1 )$$", 
-  "The probability of such an occurence is $$P(e|s_2 ) = P(H_1|s_2 ) = \\int_{\\gamma_0}^{\\infty}p(z|s_2  ) dz$$", 
-  "Combining the previous three equations, we can write: $$P_B = P(H_2|s_1 )P(s_1 ) + P(H_1|s_2 )P(s_2 )$$ ", 
+  "La probabilidad de tal ocurrencia es: $$P(e|s_1 )=P(H_2|s_1 ) = \\int_{-\\infty}^{\\gamma_0}p(z|s_1 )$$", 
+  "La probabilidad de tal ocurrencia es: $$P(e|s_2 ) = P(H_1|s_2 ) = \\int_{\\gamma_0}^{\\infty}p(z|s_2  ) dz$$", 
+  "Combinando las tres ecuaciones anteriores, se puede escribir: $$P_B = P(H_2|s_1 )P(s_1 ) + P(H_1|s_2 )P(s_2 )$$ ", 
   "$$P_B = \\frac{1}{2}P(H_2|s_1 ) + \\frac{1}{2}P(H_1|s_2 )$$",
   "$$P_B = P(H_2|s_1 ) = P(H_1|s_2 )$$",
-  "We can therefore compute $$P_B$$ by integrating $$p(z|s_1 )$$ between the limits $$-\\infty$$ and $$\\gamma_0$$, or as shown below, by integrating $$p(z|s_2  )$$ between the limits $$\\gamma_0$$ and $$\\infty$$: $$\\newline$$ $$P_B = \\int_{\\gamma_0=(a_1 + a_2 )/2}^{\\infty}p(z|s_2  ) dz$$",
-  "Replacing the likelihood $$p(z|s_2  )$$ with its Gaussian equivalent, we have:$$\\newline$$ $$P_B = \\int_{\\gamma_0=(a_1 + a_2 )/2}^{\\infty} \\frac{1}{\\sigma_0 \\sqrt{2 \\pi}} exp\\left[ -\\frac{1}{2}\\left(\\frac{z-a_2}{\\sigma_0} \\right)^2 \\right] dz$$",
-  "$$P_B = \\int_{\\gamma_0=(a_1 - a_2 )/2}^{u=\\infty}$$ $$\\frac{1}{\\sqrt{2 \\pi}}exp\\left( -\\frac{u^2}{2}\\right) du = Q \\left (\\frac{a_1 -a_2}{2\\sigma_0} \\right)$$",
+  "Por lo tanto, se puede calcular $$P_B$$ integrando $$p(z|s_1 )$$ entre los limites $$-\\infty$$ y $$\\gamma_0$$, o como se muestra a continuación, integrando $$p(z|s_2  )$$ entre los limites $$\\gamma_0$$ y $$\\infty$$: $$\\newline$$ $$P_B = \\int_{\\gamma_0=(a_1 + a_2 )/2}^{\\infty}p(z|s_2  ) dz$$",
+  "Reemplazando de la probabilidad $$p(z|s_2  )$$ con su equivalente gaussiano, tenemos:$$\\newline$$ $$P_B = \\int_{\\gamma_0=(a_1 + a_2 )/2}^{\\infty} \\frac{1}{\\sigma_0 \\sqrt{2 \\pi}} exp\\left[ -\\frac{1}{2}\\left(\\frac{z-a_2}{\\sigma_0} \\right)^2 \\right] dz$$",
+  "$$P_B = \\int_{u=(a_1 - a_2 )/(2\\sigma_0)}^{u=\\infty}$$ $$\\frac{1}{\\sqrt{2 \\pi}}exp\\left( -\\frac{u^2}{2}\\right) du = Q \\left (\\frac{a_1 -a_2}{2\\sigma_0} \\right)$$",
   "$$Q(x)= \\frac{1}{\\sqrt{2 \\pi}}\\int_{x}^{\\infty}  exp\\left( -\\frac{u^2}{2}\\right) du$$"
 ]
 
 
 const solFr:string[]=[
-  "Français:The probability of such an occurence is $$P(e|s_1 )=P(H_2|s_1 ) = \\int_{-\\infty}^{\\gamma_0}p(z|s_1 )$$", 
-  "The probability of such an occurence is $$P(e|s_2 ) = P(H_1|s_2 ) = \\int_{\\gamma_0}^{\\infty}p(z|s_2  ) dz$$", 
-  "Combining the previous three equations, we can write: $$P_B = P(H_2|s_1 )P(s_1 ) + P(H_1|s_2 )P(s_2 )$$ ", 
+  "La probabilité d'un tel événement est: $$P(e|s_1 )=P(H_2|s_1 ) = \\int_{-\\infty}^{\\gamma_0}p(z|s_1 )$$", 
+  "La probabilité d'un tel événement est: $$P(e|s_2 ) = P(H_1|s_2 ) = \\int_{\\gamma_0}^{\\infty}p(z|s_2  ) dz$$", 
+  "En combinant les trois équations précédentes, on peut écrire: $$P_B = P(H_2|s_1 )P(s_1 ) + P(H_1|s_2 )P(s_2 )$$ ", 
   "$$P_B = \\frac{1}{2}P(H_2|s_1 ) + \\frac{1}{2}P(H_1|s_2 )$$",
   "$$P_B = P(H_2|s_1 ) = P(H_1|s_2 )$$",
-  "We can therefore compute $$P_B$$ by integrating $$p(z|s_1 )$$ between the limits $$-\\infty$$ and $$\\gamma_0$$, or as shown below, by integrating $$p(z|s_2  )$$ between the limits $$\\gamma_0$$ and $$\\infty$$: $$\\newline$$ $$P_B = \\int_{\\gamma_0=(a_1 + a_2 )/2}^{\\infty}p(z|s_2  ) dz$$",
-  "Replacing the likelihood $$p(z|s_2  )$$ with its Gaussian equivalent, we have:$$\\newline$$ $$P_B = \\int_{\\gamma_0=(a_1 + a_2 )/2}^{\\infty} \\frac{1}{\\sigma_0 \\sqrt{2 \\pi}} exp\\left[ -\\frac{1}{2}\\left(\\frac{z-a_2}{\\sigma_0} \\right)^2 \\right] dz$$",
-  "$$P_B = \\int_{\\gamma_0=(a_1 - a_2 )/2}^{u=\\infty}$$ $$\\frac{1}{\\sqrt{2 \\pi}}exp\\left( -\\frac{u^2}{2}\\right) du = Q \\left (\\frac{a_1 -a_2}{2\\sigma_0} \\right)$$",
+  "On peut donc calculer $$P_B$$ en intégrant $$p(z|s_1 )$$ entre les bornes $$-\\infty$$ and $$\\gamma_0$$, ou comme indiqué ci-dessous, en intégrant $$p(z|s_2  )$$ entre les bornes $$\\gamma_0$$ et $$\\infty$$: $$\\newline$$ $$P_B = \\int_{\\gamma_0=(a_1 + a_2 )/2}^{\\infty}p(z|s_2  ) dz$$",
+  "Remplacement la vraisemblance $$p(z|s_2  )$$ avec son équivalent gaussien, on a :$$\\newline$$ $$P_B = \\int_{\\gamma_0=(a_1 + a_2 )/2}^{\\infty} \\frac{1}{\\sigma_0 \\sqrt{2 \\pi}} exp\\left[ -\\frac{1}{2}\\left(\\frac{z-a_2}{\\sigma_0} \\right)^2 \\right] dz$$",
+  "$$P_B = \\int_{u=(a_1 - a_2 )/(2\\sigma_0)}^{u=\\infty}$$ $$\\frac{1}{\\sqrt{2 \\pi}}exp\\left( -\\frac{u^2}{2}\\right) du = Q \\left (\\frac{a_1 -a_2}{2\\sigma_0} \\right)$$",
   "$$Q(x)= \\frac{1}{\\sqrt{2 \\pi}}\\int_{x}^{\\infty}  exp\\left( -\\frac{u^2}{2}\\right) du$$"
 ]
 
@@ -625,7 +489,7 @@ if(props.id === 4)
  }
 
  pageSolutionAddress = ["/P4en.pdf","/P4es.pdf","/P4fr.pdf"];;
- pageCourse = ["Electrical Engineering Digital Communications","es:Electrical Engineering Digital Communications","fr:Electrical Engineering Digital Communications"];
+ pageCourse = ["Electrical Engineering Digital Communications","Ingeniería Eléctrica Comunicaciones Digitales","Génie Électrique Communications Numériques"];
  pageUnit = ["Introduction", "Introducción", "Introduction"];
  pageTitle = ["P2. The Matched Filter", "P2. El filtro emparejado", "P2. Le filtre adapté"];
 
@@ -646,41 +510,41 @@ if(props.id === 4)
     "We next find that value of <kaTex>$$H(f)=H_0(f)$$<kaTex> for which the maximum <kaTex>$$(S/N)_T$$<kaTex> is achieved, by using Schwarz's inequality. One form of the inequality can be stated as:<br /> <kaTex>$$\\left| \\int_{-\\infty}^{\\infty} f_1 (x) f_2 (x) \\right| \\leq \\int_{-\\infty}^{\\infty} |f_1 (x)|^2 dx \\int_{-\\infty}^{\\infty} |f_2 (x)|^2 dx.$$<kaTex><br/> The equality holds if <kaTex>$$f_1(x) = k f_2^*$$<kaTex>, where k is an arbitrary constant and * indicates complex conjugate. If we identify <kaTex>$$H(f)$$<kaTex> with <kaTex>$$f_1 (x)$$<kaTex> and <kaTex>$$S(f)e^{j2\\pi fT}$$<kaTex> with <kaTex>$$f_2(x)$$<kaTex> we can write: <b>6.____</b>",
     "Substituting in one of the previous equations yields: <b>7.____</b>",
     "or: <b>8.____</b>",
-    "where the energy, <kaTex>$$E$$<kaTex>, of the input signal <kaTex>$$s(t)$$<kaTex> is:<br /> <kaTex>$$E = \\int_{-\\infty}^{\\infty}|S(f)|^2 df$$.<kaTex> <br />Thus the maximum output <kaTex>$$(S/N)_T$$<kaTex> depends on the input signal energy and the power spectral density of the noise, not on the particular shape of the waveform that is used. <br/> The equality in the previous equation holds only if the optimum filter transfer function, <kaTex>$$H_0(f)$$<kaTex>, is employed, such that: <b>9.____</b>",
+    "where the energy, <kaTex>$$E$$<kaTex>, of the input signal <kaTex>$$s(t)$$<kaTex> is:<br /> <kaTex>$$E = \\int_{-\\infty}^{\\infty}|S(f)|^2 df$$.<kaTex> <br />Thus the maximum output <kaTex>$$(S/N)_T$$<kaTex> depends on the input signal energy and the power spectral density of the noise, not on the particular shape of the waveform that is used. <br/> The equality in the previous inequality holds only if the optimum filter transfer function, <kaTex>$$H_0(f)$$<kaTex>, is employed, such that: <b>9.____</b>",
     "or: <b>10.____</b>",
     "Since <kaTex>$$s(t)$$<kaTex> is a real valued signal we can write using Fourier transformations table: <b>11.____</b>",
     "Thus the impulse response of a filter that produces the maximum output signal-to-noise ratio is the mirror image of the message signal <kaTex>$$s(t)$$<kaTex>, <i>delayed</i> by the symbol time duration, <kaTex>$$T$$<kaTex>.Note that the delay of <kaTex>$$T$$<kaTex> seconds makes the previous equations causal; that is, the delay of <kaTex>$$T$$<kaTex> seconds makes <kaTex>$$h(t)$$<kaTex> a function of positive time in the interval <kaTex>$$0$$ $$\\leq$$ $$t$$ $$\\leq$$ $$T$$.<kaTex> <b>12.____</b>"
   ],
   [
-    "<div class='d-flex align-items-center'><img width='90%' class='mx-auto' src=/MatchedFilter.png></div><div style='text-align:center;'>Figure 1. Two basic steps in digital signal detection</div><p></p>",
-    "Por favor:A matched filter is a linear filter designed to provide the maximum signal-to-noise power ratio at its output for a given transmitted symbol waveform. Consider that a known signal <kaTex>$$s(t)$$<kaTex> plus AWGN, <kaTex>$$n(t)$$<kaTex>, is the input to a linear, time-invariant filter followed by a sampler, as shown in Figure 1. At time <kaTex>$$t = T$$<kaTex>, the receiver output <kaTex>$$z(T)$$<kaTex>, consists of a signal component, <kaTex>$$a_i$$<kaTex>, and a noise component, <kaTex>$$n_0$$<kaTex>. The variance of the output noise (average noise power) is denoted by <kaTex>$$\\sigma_0^2$$<kaTex>, so that the ratio of instantaneous signal power to average noise power, <kaTex>$$(S/N)_T$$<kaTex>, at time <kaTex>$$t = T$$<kaTex>, out of the receiver in block 1, is: <b>1.____</b>",
-    "We wish to find the filter transfer function <kaTex>$$H_0(f)$$<kaTex> that maximizes the previous equation. <b>2.____</b>",
-    "where <kaTex>$$S(f)$$<kaTex> is the Fourier transform of the input signal <kaTex>$$s(t)$$<kaTex>. Assume the two-sided power spectral density of the input noise is <kaTex>$$N_0/2$$<kaTex> watts/hertz. <b>3.____</b>",
-    "We can express the output noise power, <kaTex>$$\\sigma_0^2$$<kaTex>, as: <b>4.____</b>",
-    "We then combine the previous equations to express <kaTex>$$(S/N)_T$$<kaTex>, as follows: <b>5.____</b>",
-    "We next find that value of <kaTex>$$H(f)=H_0(f)$$<kaTex> for which the maximum <kaTex>$$(S/N)_T$$<kaTex> is achieved, by using Schwarz's inequality. One form of the inequality can be stated as:<br /> <kaTex>$$\\left| \\int_{-\\infty}^{\\infty} f_1 (x) f_2 (x) \\right| \\leq \\int_{-\\infty}^{\\infty} |f_1 (x)|^2 dx \\int_{-\\infty}^{\\infty} |f_2 (x)|^2 dx.$$<kaTex><br/> The equality holds if <kaTex>$$f_1(x) = k f_2^*$$<kaTex>, where k is an arbitrary constant and * indicates complex conjugate. If we identify <kaTex>$$H(f)$$<kaTex> with <kaTex>$$f_1 (x)$$<kaTex> and <kaTex>$$S(f)e^{j2\\pi fT}$$<kaTex> with <kaTex>$$f_2(x)$$<kaTex> we can write: <b>6.____</b>",
-    "Substituting in one of the previous equations yields: <b>7.____</b>",
-    "or: <b>8.____</b>",
-    "where the energy, <kaTex>$$E$$<kaTex>, of the input signal <kaTex>$$s(t)$$<kaTex> is:<br /> <kaTex>$$E = \\int_{-\\infty}^{\\infty}|S(f)|^2 df$$.<kaTex> <br />Thus the maximum output <kaTex>$$(S/N)_T$$<kaTex> depends on the input signal energy and the power spectral density of the noise, not on the particular shape of the waveform that is used. <br/> The equality in the previous equation holds only if the optimum filter transfer function, <kaTex>$$H_0(f)$$<kaTex>, is employed, such that: <b>9.____</b>",
-    "or: <b>10.____</b>",
-    "Since <kaTex>$$s(t)$$<kaTex> is a real valued signal we can write using Fourier transformations table: <b>11.____</b>",
-    "Thus the impulse response of a filter that produces the maximum output signal-to-noise ratio is the mirror image of the message signal <kaTex>$$s(t)$$<kaTex>, <i>delayed</i> by the symbol time duration, <kaTex>$$T$$<kaTex>.Note that the delay of <kaTex>$$T$$<kaTex> seconds makes the previous equations causal; that is, the delay of <kaTex>$$T$$<kaTex> seconds makes <kaTex>$$h(t)$$<kaTex> a function of positive time in the interval <kaTex>$$0$$ $$\\leq$$ $$t$$ $$\\leq$$ $$T$$.<kaTex> <b>12.____</b>"
+    "<div class='d-flex align-items-center'><img width='90%' class='mx-auto' src=/MatchedFilter.png></div><div style='text-align:center;'>Figura 1. Dos pasos basicos en la detección de señales digitales.</div><p></p>",
+    "Un filtro adaptado es un filtro lineal diseñado para proporcionar la máxima relación de potencia de señal a ruido en su salida para una forma de onda de símbolo transmitida dada. Considere que una señal conocida <kaTex>$$s(t)$$<kaTex>  más AWGN, <kaTex>$$n(t)$$<kaTex>, es la entrada a un filtro lineal invariable en el tiempo seguido de un muestreador, como se muestra en la Fig. 1. En el tiempo <kaTex>$$t = T$$<kaTex>, la salida del receptor <kaTex>$$z(T)$$<kaTex>, consiste en un componente de señal, <kaTex>$$a_i$$<kaTex>, y un componente de ruido, <kaTex>$$n_0$$<kaTex>. La varianza de la el ruido de salida (potencia de ruido promedio) se denota por  <kaTex>$$\\sigma_0^2$$<kaTex>, de modo que la relación entre la potencia de la señal instantánea y la potencia de ruido promedio, <kaTex>$$(S/N)_T$$<kaTex>, en el tiempo <kaTex>$$t = T$$<kaTex>, fuera del receptor en el bloque 1, es: <b>1.____</b>",
+    "Se desea encontrar la función de transferencia de filtro <kaTex>$$H_0(f)$$<kaTex> que maximice la ecuación anterior. <b>2.____</b>",
+    "donde <kaTex>$$S(f)$$<kaTex> es la transformada de Fourier de la señal de entrada <kaTex>$$s(t)$$<kaTex>. Suponga que el espectro de potencia bilateral la densidad del ruido de entrada es <kaTex>$$N_0/2$$<kaTex> watts/hertz. <b>3.____</b>",
+    "Se puede expresar la potencia de ruido de salida, <kaTex>$$\\sigma_0^2$$<kaTex>, como: <b>4.____</b>",
+    "Luego combinamos las ecuaciones anteriores para expresar <kaTex>$$(S/N)_T$$<kaTex>, como sigue: <b>5.____</b>",
+    "A continuación se encuentra el valor de <kaTex>$$H(f)=H_0(f)$$<kaTex> para el cual se logra el máximo <kaTex>$$(S/N)_T$$<kaTex>, utilizando el método de Schwarz desigualdad. Una forma de la desigualdad se puede establecer como:<br /> <kaTex>$$\\left| \\int_{-\\infty}^{\\infty} f_1 (x) f_2 (x) \\right| \\leq \\int_{-\\infty}^{\\infty} |f_1 (x)|^2 dx \\int_{-\\infty}^{\\infty} |f_2 (x)|^2 dx.$$<kaTex><br/> La igualdad se cumple si <kaTex>$$f_1(x) = k f_2^*$$<kaTex>, donde k es una constante arbitraria y * indica conjugado complejo. Si se identifica <kaTex>$$H(f)$$<kaTex> con <kaTex>$$f_1 (x)$$<kaTex> y <kaTex>$$S(f)e^{j2\\pi fT}$$<kaTex> con <kaTex>$$f_2(x)$$<kaTex> se puede escribir: <b>6.____</b>",
+    "Sustituyendo en una de las ecuaciones anteriores se obtiene: <b>7.____</b>",
+    "o: <b>8.____</b>",
+    "donde la energía, <kaTex>$$E$$<kaTex>, de la señal de entrada <kaTex>$$s(t)$$<kaTex> es:<br /> <kaTex>$$E = \\int_{-\\infty}^{\\infty}|S(f)|^2 df$$.<kaTex> <br />Por lo tanto, la salida máxima <kaTex>$$(S/N)_T$$<kaTex>depende de la energía de la señal de entrada y de la densidad espectral de potencia del ruido, no en la forma particular de la forma de onda que se utiliza. La igualdad en la desigualdad anterior se cumple solo si la función de transferencia de filtro óptima, <kaTex>$$H_0(f)$$<kaTex>, es empleado, tal que: <b>9.____</b>",
+    "o: <b>10.____</b>",
+    "Dado que <kaTex>$$s(t)$$<kaTex> es una señal de valor real, podemos escribir usando la tabla de transformaciones de Fourier: <b>11.____</b>",
+    "Por tanto, la respuesta de impulso de un filtro que produce la máxima relación señal-ruido de salida es la imagen especular de la señal de mensaje <kaTex>$$s(t)$$<kaTex>, <i>retrasada</i> por la duración del tiempo del símbolo, <kaTex>$$T$$<kaTex>.Tenga en cuenta que la demora de <kaTex>$$T$$<kaTex> segundos hace que las ecuaciones anteriores sean causales; es decir, el retraso de <kaTex>$$T$$<kaTex> segundos hace que <kaTex>$$h(t)$$<kaTex> sea una función de tiempo positivo en el intervalo <kaTex>$$0$$ $$\\leq$$ $$t$$ $$\\leq$$ $$T$$.<kaTex> <b>12.____</b>"
 
   ],
   [
-    "<div class='d-flex align-items-center'><img width='90%' class='mx-auto' src=/MatchedFilter.png></div><div style='text-align:center;'>Figure 1. Two basic steps in digital signal detection</div><p></p>",
-    "S'il vous plait: A matched filter is a linear filter designed to provide the maximum signal-to-noise power ratio at its output for a given transmitted symbol waveform. Consider that a known signal <kaTex>$$s(t)$$<kaTex> plus AWGN, <kaTex>$$n(t)$$<kaTex>, is the input to a linear, time-invariant filter followed by a sampler, as shown in Figure 1. At time <kaTex>$$t = T$$<kaTex>, the receiver output <kaTex>$$z(T)$$<kaTex>, consists of a signal component, <kaTex>$$a_i$$<kaTex>, and a noise component, <kaTex>$$n_0$$<kaTex>. The variance of the output noise (average noise power) is denoted by <kaTex>$$\\sigma_0^2$$<kaTex>, so that the ratio of instantaneous signal power to average noise power, <kaTex>$$(S/N)_T$$<kaTex>, at time <kaTex>$$t = T$$<kaTex>, out of the receiver in block 1, is: <b>1.____</b>",
-    "We wish to find the filter transfer function <kaTex>$$H_0(f)$$<kaTex> that maximizes the previous equation. <b>2.____</b>",
-    "where <kaTex>$$S(f)$$<kaTex> is the Fourier transform of the input signal <kaTex>$$s(t)$$<kaTex>. Assume the two-sided power spectral density of the input noise is <kaTex>$$N_0/2$$<kaTex> watts/hertz. <b>3.____</b>",
-    "We can express the output noise power, <kaTex>$$\\sigma_0^2$$<kaTex>, as: <b>4.____</b>",
-    "We then combine the previous equations to express <kaTex>$$(S/N)_T$$<kaTex>, as follows: <b>5.____</b>",
-    "We next find that value of <kaTex>$$H(f)=H_0(f)$$<kaTex> for which the maximum <kaTex>$$(S/N)_T$$<kaTex> is achieved, by using Schwarz's inequality. One form of the inequality can be stated as:<br /> <kaTex>$$\\left| \\int_{-\\infty}^{\\infty} f_1 (x) f_2 (x) \\right| \\leq \\int_{-\\infty}^{\\infty} |f_1 (x)|^2 dx \\int_{-\\infty}^{\\infty} |f_2 (x)|^2 dx.$$<kaTex><br/> The equality holds if <kaTex>$$f_1(x) = k f_2^*$$<kaTex>, where k is an arbitrary constant and * indicates complex conjugate. If we identify <kaTex>$$H(f)$$<kaTex> with <kaTex>$$f_1 (x)$$<kaTex> and <kaTex>$$S(f)e^{j2\\pi fT}$$<kaTex> with <kaTex>$$f_2(x)$$<kaTex> we can write: <b>6.____</b>",
-    "Substituting in one of the previous equations yields: <b>7.____</b>",
-    "or: <b>8.____</b>",
-    "where the energy, <kaTex>$$E$$<kaTex>, of the input signal <kaTex>$$s(t)$$<kaTex> is:<br /> <kaTex>$$E = \\int_{-\\infty}^{\\infty}|S(f)|^2 df$$.<kaTex> <br />Thus the maximum output <kaTex>$$(S/N)_T$$<kaTex> depends on the input signal energy and the power spectral density of the noise, not on the particular shape of the waveform that is used. <br/> The equality in the previous equation holds only if the optimum filter transfer function, <kaTex>$$H_0(f)$$<kaTex>, is employed, such that: <b>9.____</b>",
-    "or: <b>10.____</b>",
-    "Since <kaTex>$$s(t)$$<kaTex> is a real valued signal we can write using Fourier transformations table: <b>11.____</b>",
-    "Thus the impulse response of a filter that produces the maximum output signal-to-noise ratio is the mirror image of the message signal <kaTex>$$s(t)$$<kaTex>, <i>delayed</i> by the symbol time duration, <kaTex>$$T$$<kaTex>.Note that the delay of <kaTex>$$T$$<kaTex> seconds makes the previous equations causal; that is, the delay of <kaTex>$$T$$<kaTex> seconds makes <kaTex>$$h(t)$$<kaTex> a function of positive time in the interval <kaTex>$$0$$ $$\\leq$$ $$t$$ $$\\leq$$ $$T$$.<kaTex> <b>12.____</b>"
+    "<div class='d-flex align-items-center'><img width='90%' class='mx-auto' src=/MatchedFilter.png></div><div style='text-align:center;'>Figure 1. Deux étapes de la détection de signal numérique.</div><p></p>",
+    "Un filtre adapté est un filtre linéaire conçu pour fournir le rapport de puissance signal/bruit maximal à son sortie pour une forme d'onde de symbole transmise donnée. Considérons qu'un signal connu <kaTex>$$s(t)$$<kaTex> plus AWGN, <kaTex>$$n(t)$$<kaTex>, est l'entrée d'un filtre linéaire invariant dans le temps suivi d'un échantillonneur, comme illustré à la Fig. 1. Au temps <kaTex>$$t = T$$<kaTex>, la sortie du récepteur <kaTex>$$z(T)$$<kaTex>, se compose d'une composante de signal, <kaTex>$$a_i$$<kaTex>, et d'une composante de bruit, <kaTex>$$n_0$$<kaTex>. L'écart de la le bruit de sortie (puissance de bruit moyenne) est noté <kaTex>$$\\sigma_0^2$$<kaTex>, de sorte que le rapport entre la puissance instantanée du signal et la puissance de bruit moyenne, <kaTex>$$(S/N)_T$$<kaTex>, à l'instant <kaTex>$$t = T$$<kaTex>, en sortie du récepteur dans le bloc 1, est: <b>1.____</b>",
+    "On souhaite trouver la fonction de transfert du filtre <kaTex>$$H_0(f)$$<kaTex> qui maximise l'équation précédente. <b>2.____</b>",
+    "où <kaTex>$$S(f)$$<kaTex> est la transformée de Fourier du signal d'entrée <kaTex>$$s(t)$$<kaTex>. Supposons le spectre de puissance bilatéral la densité du bruit d'entrée est <kaTex>$$N_0/2$$<kaTex> watts/hertz. <b>3.____</b>",
+    "Nous pouvons exprimer la puissance de bruit de sortie, <kaTex>$$\\sigma_0^2$$<kaTex>, comme suit: <b>4.____</b>",
+    "Nous combinons ensuite les équations précédentes pour exprimer <kaTex>$$(S/N)_T$$<kaTex>, comme suit: <b>5.____</b>",
+    "On trouve ensuite la valeur de <kaTex>$$H(f)=H_0(f)$$<kaTex> pour laquelle le maximum <kaTex>$$(S/N)_T$$<kaTex> est atteint, en utilisant la formule de Schwarz inégalité. Une forme de l'inégalité peut être énoncée comme suit:<br /> <kaTex>$$\\left| \\int_{-\\infty}^{\\infty} f_1 (x) f_2 (x) \\right| \\leq \\int_{-\\infty}^{\\infty} |f_1 (x)|^2 dx \\int_{-\\infty}^{\\infty} |f_2 (x)|^2 dx.$$<kaTex><br/> L'égalité est vraie <kaTex>$$f_1(x) = k f_2^*$$<kaTex>, où k est une constante arbitraire et * indique un conjugué complexe. Si on identifie <kaTex>$$H(f)$$<kaTex> avec <kaTex>$$f_1 (x)$$<kaTex> et <kaTex>$$S(f)e^{j2\\pi fT}$$<kaTex> avec <kaTex>$$f_2(x)$$<kaTex> on peut écrire: <b>6.____</b>",
+    "La substitution dans l'une des équations précédentes donne: <b>7.____</b>",
+    "ou: <b>8.____</b>",
+    "où l'énergie, <kaTex>$$E$$<kaTex>, du signal d'entrée <kaTex>$$s(t)$$<kaTex> est:<br /> <kaTex>$$E = \\int_{-\\infty}^{\\infty}|S(f)|^2 df$$.<kaTex> <br />Ainsi, la sortie maximale <kaTex>$$(S/N)_T$$<kaTex> dépend de l'énergie du signal d'entrée et de la densité spectrale de puissance du bruit, pas sur la forme particulière de la forme d'onde qui est utilisée. <br/> L'égalité dans l'inégalité précédente n'est valable que si la fonction de transfert de filtre optimale, <kaTex>$$H_0(f)$$<kaTex>, est employé, tel que: <b>9.____</b>",
+    "ou: <b>10.____</b>",
+    "Puisque <kaTex>$$s(t)$$<kaTex> est un signal à valeur réelle, nous pouvons écrire en utilisant le tableau des transformations de Fourier <b>11.____</b>",
+    "Ainsi, la réponse impulsionnelle d'un filtre qui produit le rapport signal sur bruit de sortie maximal est la image miroir du signal de message <kaTex>$$s(t)$$<kaTex>, <i>retardé</i> de la durée du symbole, <kaTex>$$T$$<kaTex>. Notez que le retard de <kaTex>$$T$$<kaTex> secondes rend les équations précédentes causales; c'est-à-dire que le retard de <kaTex>$$T$$<kaTex> secondes fait de <kaTex>$$h(t)$$<kaTex> une fonction de temps positif dans l'intervalle <kaTex>$$0$$ $$\\leq$$ $$t$$ $$\\leq$$ $$T$$.<kaTex> <b>12.____</b>"
 
   ]
 ];
@@ -747,9 +611,9 @@ const solEn:string[]=[
   "Without the delay of $$T$$ seconds, the response, $$s(-t)$$, is unrealizable because it describes a response as a function of negative time."
 ]
 const solEs:string[]=[
-  "Español: $$\\left(\\frac{S}{N} \\right)_T = \\frac{a_i^2}{\\sigma_0^2}$$", 
-  "We can express the signal, $$a(t)$$, at the filter output, $$\\newline$$ in terms of the filter transfer function, $$H(f)$$ (before optimization), and the Fourier transform of the input signal as follows: $$a(t) = \\int_{-\\infty}^{\\infty}H(f)S(f)e^{j2\\pi fT} df$$", 
-  "The input power spectral density, $$G_X(f)$$, and the output power spectral density, $$G_Y(f)$$, are related as follows: $$G_Y(f)=G_X(f)|H(f)|^2$$", 
+  "$$\\left(\\frac{S}{N} \\right)_T = \\frac{a_i^2}{\\sigma_0^2}$$", 
+  "Se puede expresar la señal, $$a(t)$$, en la salida del filtro, $$\\newline$$en términos de la función de transferencia del filtro, $$H(f)$$  (antes optimización), y la transformada de Fourier de la señal de entrada de la siguiente manera: $$a(t) = \\int_{-\\infty}^{\\infty}H(f)S(f)e^{j2\\pi fT} df$$", 
+  "La densidad espectral de potencia de entrada, $$G_X(f)$$$, y la salida densidad espectral de potencia, $$G_Y(f)$$, se relacionan de la siguiente manera: $$G_Y(f)=G_X(f)|H(f)|^2$$", 
   "$$\\sigma_0^2 = \\frac{N_0}{2}\\int_{-\\infty}^{\\infty}|H(f)|^2 df$$", 
   "$$\\left(\\frac{S}{N} \\right)_T = \\frac{\\left |\\int_{-\\infty}^{\\infty}H(f)S(f)e^{j2\\pi f_t} df\\right| }{\\frac{N_0}{2}\\int_{-\\infty}^{\\infty}|H(f)|^2 df}$$",
   "$$\\left|\\int_{-\\infty}^{\\infty}H(f)S(f)e^{j2\\pi fT} df \\right|\\leq \\int_{-\\infty}^{\\infty}|H(f)|^2 df\\int_{-\\infty}^{\\infty}|S(f)|^2 df$$",
@@ -757,14 +621,14 @@ const solEs:string[]=[
   "$$max \\left ( \\frac{S}{N} \\right )_T = \\frac{2E}{N_0}$$",
   "$$H(f) = H_0(f) = k S^*(f)e^{-j2\\pi fT}$$",
   "$$h(t) = \\mathcal{F}^{-1}\\{kS^*(f)e^{-j2 \\pi f T}\\}$$",
-  "$$h(t) = \\begin{cases} ks(T-t), & \\text{ 0 ≤ t ≤ T} \\\\ 0, & \\text{elsewhere} \\end{cases}$$",
-  "Without the delay of $$T$$ seconds, the response, $$s(-t)$$, is unrealizable because it describes a response as a function of negative time."
+  "$$h(t) = \\begin{cases} ks(T-t), & \\text{ 0 ≤ t ≤ T} \\\\ 0, & \\text{en otra parte} \\end{cases}$$",
+  "Sin el retraso de $$T$$ segundos, la respuesta, $$s(-t)$$, es irrealizable porque describe una respuesta como una función de tiempo negativo."
 ]
 
 const solFr:string[]=[
-  "Français: $$\\left(\\frac{S}{N} \\right)_T = \\frac{a_i^2}{\\sigma_0^2}$$", 
-  "We can express the signal, $$a(t)$$, at the filter output, $$\\newline$$ in terms of the filter transfer function, $$H(f)$$ (before optimization), and the Fourier transform of the input signal as follows: $$a(t) = \\int_{-\\infty}^{\\infty}H(f)S(f)e^{j2\\pi fT} df$$", 
-  "The input power spectral density, $$G_X(f)$$, and the output power spectral density, $$G_Y(f)$$, are related as follows: $$G_Y(f)=G_X(f)|H(f)|^2$$", 
+  "$$\\left(\\frac{S}{N} \\right)_T = \\frac{a_i^2}{\\sigma_0^2}$$", 
+  "Nous pouvons exprimer le signal, $$a(t)$$, à la sortie du filtre, $$\\newline$$ en fonction de la fonction de transfert du filtre, $$H(f)$$ (avant optimisation), et la transformée de Fourier du signal d'entrée comme suit: $$a(t) = \\int_{-\\infty}^{\\infty}H(f)S(f)e^{j2\\pi fT} df$$", 
+  "La densité spectrale de puissance d'entrée, $$G_X(f)$$, et la sortie densité spectrale de puissance, $$G_Y(f)$$, sont liées comme suit: $$G_Y(f)=G_X(f)|H(f)|^2$$", 
   "$$\\sigma_0^2 = \\frac{N_0}{2}\\int_{-\\infty}^{\\infty}|H(f)|^2 df$$", 
   "$$\\left(\\frac{S}{N} \\right)_T = \\frac{\\left |\\int_{-\\infty}^{\\infty}H(f)S(f)e^{j2\\pi f_t} df\\right| }{\\frac{N_0}{2}\\int_{-\\infty}^{\\infty}|H(f)|^2 df}$$",
   "$$\\left|\\int_{-\\infty}^{\\infty}H(f)S(f)e^{j2\\pi fT} df \\right|\\leq \\int_{-\\infty}^{\\infty}|H(f)|^2 df\\int_{-\\infty}^{\\infty}|S(f)|^2 df$$",
@@ -772,8 +636,8 @@ const solFr:string[]=[
   "$$max \\left ( \\frac{S}{N} \\right )_T = \\frac{2E}{N_0}$$",
   "$$H(f) = H_0(f) = k S^*(f)e^{-j2\\pi fT}$$",
   "$$h(t) = \\mathcal{F}^{-1}\\{kS^*(f)e^{-j2 \\pi f T}\\}$$",
-  "$$h(t) = \\begin{cases} ks(T-t), & \\text{ 0 ≤ t ≤ T} \\\\ 0, & \\text{elsewhere} \\end{cases}$$",
-  "Without the delay of $$T$$ seconds, the response, $$s(-t)$$, is unrealizable because it describes a response as a function of negative time."
+  "$$h(t) = \\begin{cases} ks(T-t), & \\text{ 0 ≤ t ≤ T} \\\\ 0, & \\text{autre part} \\end{cases}$$",
+  "Sans le délai de $$T$$ secondes, la réponse, $$s(-t)$$, est irréalisable parce qu'il décrit une réponse en fonction du temps négatif."
 ]
 
 optionsListBank=[
@@ -792,32 +656,6 @@ optionsListCorrect=[[""].concat(solEn), [""].concat(solEs), [""].concat(solFr)];
 }
 
 
-const initScore=Array(1).fill('');
-const initCheck=Array(1).fill(0);
-const [scoreReport, setScoreReport] = useState(initScore);
-const [presentPageScore, setPresentPageScore]= useState(0);
-const [presentCheckIndicator, setPresentCheckIndicator]=useState(initCheck);
-
-
-function scoreFunction(){
-  let pageScore:number = 0;
-  let checkIndicator:number[]=[];
-  for (i = 0; i < numberOfItems; i++) {
-      console.log(i);
-      console.log (globalOption[i]);
-      console.log (optionsListCorrect[props.language][i]);
-      if (pageItemType[i] ==="menu")
-        if (globalOption[i]===optionsListCorrect[props.language][i]) {pageScore++; checkIndicator[i]=1;}
-        else checkIndicator[i]=2; 
-      if (pageItemType[i] ==="num")
-        if ( Math.abs(parseFloat(globalOption[i])-parseFloat(optionsListCorrect[props.language][i]))<0.01) {pageScore++; checkIndicator[i]=1;}
-        else checkIndicator[i]=2;
-      console.log(pageMaxScore);
-    }
-  setPresentCheckIndicator(checkIndicator);
-  setPresentPageScore(pageScore);
-  setScoreReport(globalOption);
-}
 
 
 /*
@@ -832,21 +670,6 @@ Home prepare layout.
 Home prepare movie.
 
 */
-    // Function will execute on click of button
-    const onButtonClick = () => {
-      // using Java Script method to get PDF file
-      fetch('P4.pdf').then(response => {
-          response.blob().then(blob => {
-              // Creating new object of PDF file
-              const fileURL = window.URL.createObjectURL(blob);
-              // Setting various property values
-              let alink = document.createElement('a');
-              alink.href = fileURL;
-              alink.download = 'P4.pdf';
-              alink.click();
-          })
-      })
-  }
 
 
 return(
@@ -858,28 +681,7 @@ return(
           {props.language===2?<div><b>Langue: </b><i>Français</i>; <b>Cours:</b> <i>{pageCourse[props.language]}</i>; <b>Unite:</b> <i>{pageUnit[props.language]}</i>; <b>Title:</b> <i>{pageTitle[props.language]}</i> </div>:""}
         </div>
       <hr />
-      <p>
-        {/*<div dangerouslySetInnerHTML={{__html: headerTest}}></div>
-        Option:{tempOption[0]}
-        Option:{tempOption[1]}
-        Option:{tempOption[2]}
-        Option:{tempOption[3]}
-        */}
-        </p>
-        
-      {/* add a type for MenuDemo (number,string,menu) Add (Header,Label,Footer) Add(button to render string format) Add (Number Format)
-      note that global Option is an array 
-      <MenuDemo id={0} pageItemLanguage={props.language} pageItemType="num" pageItemHeader={pageItemHeaderP[props.language]} pageItemFooter={pageItemFooterP[props.language]} menuSelectedOption={selectOption} globalOptionSelected={globalOption} optionsList = {optionsListBank[props.language][0]}/>
-      <MenuDemo id={1} pageItemLanguage={props.language} pageItemType="eq" pageItemHeader={pageItemHeaderP[props.language]} pageItemFooter={pageItemFooterP[props.language]} menuSelectedOption={selectOption} globalOptionSelected={globalOption} optionsList = {optionsListBank[props.language][1]}/>
-      <MenuDemo id={2} pageItemLanguage={props.language} pageItemType="menu" pageItemHeader={pageItemHeaderP[props.language]} pageItemFooter={pageItemFooterP[props.language]} menuSelectedOption={selectOption} globalOptionSelected={globalOption} optionsList = {optionsListBank[props.language][2]}/>
-      <MenuDemo id={3} pageItemLanguage={props.language} pageItemType="menu" pageItemHeader={pageItemHeaderP[props.language]} pageItemFooter={pageItemFooterP[props.language]} menuSelectedOption={selectOption} globalOptionSelected={globalOption} optionsList = {optionsListBank[props.language][3]}/>
-      
-      
-      <MenuDemo id={0} pageItemLanguage={props.language} pageItemType={pageItemType[0]} pageItemHeader={pageItemHeaderP[props.language][0]} pageItemFooter={pageItemFooterP[props.language][0]} menuSelectedOption={selectOption} globalOptionSelected={globalOption} optionsList = {optionsListBank[props.language][0]}/>
-      <MenuDemo id={1} pageItemLanguage={props.language} pageItemType={pageItemType[1]} pageItemHeader={pageItemHeaderP[props.language][1]} pageItemFooter={pageItemFooterP[props.language][1]} menuSelectedOption={selectOption} globalOptionSelected={globalOption} optionsList = {optionsListBank[props.language][1]}/>
-      <MenuDemo id={2} pageItemLanguage={props.language} pageItemType={pageItemType[2]} pageItemHeader={pageItemHeaderP[props.language][2]} pageItemFooter={pageItemFooterP[props.language][2]} menuSelectedOption={selectOption} globalOptionSelected={globalOption} optionsList = {optionsListBank[props.language][2]}/>
-      <MenuDemo id={3} pageItemLanguage={props.language} pageItemType={pageItemType[3]} pageItemHeader={pageItemHeaderP[props.language][3]} pageItemFooter={pageItemFooterP[props.language][3]} menuSelectedOption={selectOption} globalOptionSelected={globalOption} optionsList = {optionsListBank[props.language][3]}/>
-*/}
+
       {pageItemIndices.map((itemIndex) =>
        <div>
         {presentCheckIndicator[itemIndex]==1 &&<div className='d-flex align-items-center'><img className='mx-auto' width='50' src='/checkmark.png'/></div>}
@@ -889,11 +691,12 @@ return(
       )}
 
       <button onClick={scoreFunction}><h3>{props.language===en && "Score" }{props.language===es && "Puntaje" }{props.language===fr && "Points" }</h3></button>
-{/*       {optionsListCorrect[props.language]}
+{/*   {optionsListCorrect[props.language]}
       <hr/>
       {scoreReport}
       <hr/>
-      {presentPageScore}  */}
+      {presentPageScore}
+*/}
       {presentPageScore}/{pageMaxScore}
       <hr/>
       {pageMaxScore===presentPageScore&&

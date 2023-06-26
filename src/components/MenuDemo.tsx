@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DropDown from "./DropDown";
 import Latex from "react-latex";
 import "../App.css";
@@ -48,6 +48,15 @@ const MenuDemo: React.FC<{id:number, pageItemLanguage:number, pageItemType:strin
     setSelectCity(city);
     
   };
+
+  useEffect(() => {
+    
+    setSelectCity("");
+  
+    //setCounter(++counter);
+    //console.log(counter.toString() + tempOption);
+  
+  }, [props.pageItemLanguage]);
 
   const [numericalInput, setNumericalInput] = useState('');
   const [numericalInputEntered, setNumericalInputEntered] = useState('');
