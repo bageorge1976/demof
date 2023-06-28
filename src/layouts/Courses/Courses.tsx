@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import "../../App.css"
 
 export const Courses: React.FC<{ language:number}> = (props) => {
 
@@ -7,7 +8,8 @@ export const Courses: React.FC<{ language:number}> = (props) => {
   const fr = 2;
 
   return (
-      <div>
+      <div className="course-div">
+        <p></p>
         <Link type='button' className='btn main-color btn-lg text-white' to='/courses/math'>
                         {props.language===en?<h6>Mathematics Grade 6 Geometry</h6>:""}
                         {props.language===es?<h6>Matemáticas Grado 6 Geometría</h6>:""}

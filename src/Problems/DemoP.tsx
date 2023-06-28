@@ -86,6 +86,145 @@ let pageTitle:string[] = [""];
 let pageSolutionAddress:string[] = [""];
 
 
+if(props.id === 0)
+{
+
+  pageItemType = ["info","menu","menu","menu","info","menu","menu", "menu", "menu"];
+  for (i=0;i<pageItemType.length;i++) if((pageItemType[i]==="menu")||(pageItemType[i]==="num")) pageMaxScore++;
+  
+  numberOfItems = pageItemType.length;
+
+  for (i = 0; i < numberOfItems; i++) {
+    pageItemIndices.push(i);
+ }
+
+ pageSolutionAddress = ["/P0en.pdf","/P0es.pdf","/P0fr.pdf"];;
+ pageCourse = ["Top Notch Fragments","Top Notch Fragmentos","Top Notch Fragments"];
+ pageUnit = ["Introduction","Introduccion","Introduction"];
+ pageTitle = ["Method of Fragments","Método de Fragmentos","Méthode des Fragments"];
+  
+  globalOption = tempOption;
+
+
+
+  pageItemHeaderP=
+  [
+  [
+    "<b><u><div class='d-flex align-items-center'><span class='mx-auto'>An Introduction To The Method Of Fragments<span></div></u></b>",
+    "This presentation is delivered illustrating the <b>1.____</b> in action. ",
+    "<b>2.____</b>",
+    "The strategy of creating a MOF challenge is to start with a logical text or structure and separate some fragments from its content. The learner is then presented with two documents. First the remaining text containing the ordered fragments is generated, indicating where fragments have been removed. Second, a collection of the removed fragments in random order is generated. <b>3.____</b>",
+    "Dr. Bogdan Alex Georgescu, the Director of Top Notch Canada has been faced with this type of exercises while trying to learn Spanish and trying to perform well in DELE (Diplomas de Español Lengua Extranjera) language examinations. By far the MOF puzzles were the most difficult in the lecture comprehension test. ",
+    "Several reasons led Dr. Georgescu to believe that this type of exercises could be used in education in other fields where logical flow is critical such as mathematics, sciences and engineering. To begin with, no prior knowledge of the MOF puzzle content is necessary to solve it, provided no language and vocabulary barriers exist. <b>4.____</b>. Because it can be done internally, solely based on logic, solving MOF puzzles is ideal for self study. The teacher only provides fundamental vocabulary and the learner (re)constructs the information. ",
+    "Another critical aspect of the MOF puzzle activity is it has the engagement level of an  assessment. <b>5.____</b>",
+    "While the strategy for solving MOF puzzles may require some further research, the following fact becomes apparent. To reconstruct the puzzle successfully the learner has to load into his memory the meaning of both the removed fragments and the remaining text.<b>6.____</b>. This loading into the memory process is ultimately pure learning and it can be applied to linguistics, math theorems, developing engineering concepts and perhaps legal arguments as well.",
+    "<b>7.____ </b>. Some are based on Geometry studied in the middle schools of Eastern Europe before the fall of communism in 1989 and some are Communications Engineering concepts which, although well known to experts, are challenging for many undergraduate engineering students. We invite you to click the “Courses” button at the top or at the bottom to further explore the application."
+  ],
+  [
+    "<b><u><div class='d-flex align-items-center'><span class='mx-auto'>Una introducción al método de fragmentos<span></div></u></b>",
+    "Esta presentación ilustra el <b>1.____</b> en acción. ",
+    "<b>2.____</b>",
+    "La estrategia para crear un desafío MDF es comenzar con un texto o estructura lógica y separar algunos fragmentos de su contenido. A continuación, se le presentan al alumno dos documentos. Primero se genera el texto restante que contiene los fragmentos ordenados, indicando dónde se han eliminado los fragmentos. En segundo lugar, se genera una colección de fragmentos eliminados en orden aleatorio. <b>3.____</b>",
+    "El Dr. Bogdan Alex Georgescu, Director de Top Notch Canada, se ha enfrentado a este tipo de ejercicios al intentar aprender español y obtener buenos resultados en los exámenes de idioma DELE (Diplomas de Español Lengua Extranjera). Con mucho, los acertijos MDF fueron los más difíciles en la prueba de comprensión de lectura.",
+    "Varias razones llevaron al Dr. Georgescu a creer que este tipo de ejercicios podría usarse en la educación en otros campos donde el flujo lógico es fundamental, como las matemáticas, las ciencias y la ingeniería. Para empezar, no es necesario un conocimiento previo del contenido del rompecabezas MDF para resolverlo, siempre que no existan barreras de idioma y vocabulario.<b>4.____</b>. Debido a que se puede hacer internamente, basándose únicamente en la lógica, resolver acertijos MDF es ideal para el autoaprendizaje. El profesor solo proporciona el vocabulario fundamental y el alumno (re)construye la información.",
+    "Otro aspecto crítico de la actividad del rompecabezas MDF es que tiene el nivel de compromiso de una evaluación. <b>5.____</b>.",
+    "Si bien la estrategia para resolver los acertijos MDF puede requerir más investigación, el siguiente hecho se hace evidente: para reconstruir el rompecabezas con éxito, el alumno debe cargar en su memoria el significado de los fragmentos eliminados y el texto restante. <b>6.____</b>. Esta carga en el proceso de la memoria es, en última instancia, puro aprendizaje y se puede aplicar a la lingüística, los teoremas matemáticos, el desarrollo de conceptos de ingeniería y quizás también a los argumentos legales.",
+    "<b>7.____</b>. Algunos se basan en la geometría estudiada en las escuelas intermedias de Europa del Este antes de la caída del comunismo en 1989 y algunos son conceptos de ingeniería de comunicaciones que, aunque son bien conocidos por los expertos, son un desafío para muchos estudiantes de ingeniería de pregrado. Lo invitamos a hacer clic en el botón “Cursos” tanto en la parte superior como inferior para explorar más la aplicación."
+  ],
+  [
+    "<b><u><div class='d-flex align-items-center'><span class='mx-auto'>Une introduction à la méthode des fragments<span></div></u></b>",
+    "Cette présentation illustre la <b>1.____</b> en action. ",
+    "<b>2.____</b>",
+    "La stratégie pour créer un défi MDF consiste à commencer par un texte ou une structure logique et à séparer quelques morceaux de votre contenu. L'étudiant se voit alors présenter deux documents. Le texte restant contenant les morceaux triés est d'abord généré, indiquant où les morceaux ont été supprimés. Deuxièmement, une collection de fragments supprimés est générée dans un ordre aléatoire. <b>3.____</b>",
+    "Le Dr Bogdan Alex Georgescu, directeur de Top Notch Canada, a fait face à ces types d'exercices lorsqu'il a essayé d'apprendre l'espagnol et a réussi les examens de langue DELE (Diplomas de Español Lengua Extranjera). De loin, les énigmes MDF ont été les plus difficiles au test de compréhension de lecture.",
+    "Plusieurs raisons ont amené le Dr Georgescu à croire que ces types d'exercices pourraient être utilisés en éducation dans d'autres domaines où le flux logique est essentiel, comme les mathématiques, les sciences et l'ingénierie. Pour commencer, aucune connaissance préalable du contenu du puzzle MDF n'est nécessaire pour le résoudre, tant qu'il n'y a pas de barrières de langue et de vocabulaire.<b>4.____</b>. Parce que cela peut être fait en interne, basé uniquement sur la logique, la résolution d'énigmes MDF est idéale pour l'auto-apprentissage. L'enseignant ne fournit que le vocabulaire fondamental et l'élève (re)construit l'information.",
+    "Un autre aspect critique de l'activité de puzzle MDF est qu'elle a le niveau d'engagement d'une évaluation. <b>5.____</b>.",
+    "Bien que la stratégie de résolution des énigmes MDF puisse nécessiter une enquête plus approfondie, le fait suivant devient apparent : pour réussir à reconstruire l'énigme, l'étudiant doit charger dans sa mémoire la signification des fragments supprimés et du texte restant. <b>6.____</b>. Cette charge sur le processus de la mémoire est en fin de compte un apprentissage pur et peut être appliquée à la linguistique, aux théorèmes mathématiques, au développement de concepts d'ingénierie et peut-être aussi à des arguments juridiques.",
+    "<b>7.____</b>. Certains sont basés sur la géométrie étudiée dans les collèges d'Europe de l'Est avant la chute du communisme en 1989 et certains sont des concepts d'ingénierie des communications qui, bien que bien connus des experts, représentent un défi pour de nombreux élèves-ingénieurs du premier cycle. Nous vous invitons à cliquer sur le bouton “Cours” en haut et en bas pour explorer davantage l'application."
+  ]
+];
+  pageItemFooterP=[
+  [
+    "<hr />",
+    "<hr />",
+    "<hr />",
+    "<hr />",
+    "<hr />",
+    "<hr />",
+    "<hr />",
+    "<hr />",
+    "<hr />",
+  ],
+  [ 
+    "<hr />",
+    "<hr />",
+    "<hr />",
+    "<hr />",
+    "<hr />",
+    "<hr />",
+    "<hr />",
+    "<hr />",
+    "<hr />",
+  ],
+  [
+    "<hr />",
+    "<hr />",
+    "<hr />",
+    "<hr />",
+    "<hr />",
+    "<hr />",
+    "<hr />",
+    "<hr />",
+    "<hr />",
+  ]
+];
+
+const solEn:string[]=[  
+  "method of fragments (MOF)",
+  "More specifically, we consider this presentation to be a logical structure and we deliver it using MOF.", 
+  "The challenge for the learner is to reconstruct the initial text using the two items, thus solving the MOF puzzle.", 
+  "To avoid compounding a logical problem with a language challenge we will try to offer these MOF puzzles in three high circulation languages.",
+  "Rather than reading theorems from a textbook or trying to focus on a lecture the learner is engaged in solving a puzzle and being evaluated for it.",
+  "Simply, solving the MOF puzzle as a multiple choice test is not usually a successful strategy.",
+  "Currently, on our site we present a few rather difficult MOF examples."
+];
+
+const solEs:string[]=[
+  "método de fragmentos (MDF)",
+  "Más específicamente, consideramos que esta presentación tiene una estructura lógica y la entregamos usando MDF.", 
+  "El desafío para el alumno es reconstruir el texto inicial usando los dos elementos, resolviendo así el rompecabezas MDF.", 
+  "Para evitar complicar un problema lógico con un desafío de idioma, intentaremos ofrecer estos rompecabezas MDF en tres idiomas de alta circulación.",
+  "En lugar de leer teoremas de un libro de texto o tratar de concentrarse en una lección, el alumno se dedica a resolver un acertijo y ser evaluado por ello.",
+  "Simplemente, resolver el rompecabezas MDF como una prueba de opción múltiple no suele ser una estrategia exitosa.",
+  "Actualmente, en nuestro sitio presentamos algunos ejemplos de MDF bastante difíciles."
+];
+
+const solFr:string[]=[
+  "méthode des fragments (MDF)",
+  "Plus précisément, nous considérons que cette présentation a une structure logique et nous la livrons en MDF.", 
+  "Le défi pour l'étudiant est de reconstruire le texte initial à l'aide des deux éléments, résolvant ainsi le puzzle MDF.", 
+  "Pour éviter de compliquer un problème de logique avec un défi linguistique, nous essaierons de proposer ces puzzles MDF dans trois langues à forte diffusion.",
+  "Au lieu de lire des théorèmes d'un manuel ou d'essayer de se concentrer sur une leçon, l'élève se consacre à résoudre un casse-tête et à être évalué pour celui-ci.",
+  "Résoudre simplement le puzzle MDF comme un test à choix multiples n'est généralement pas une stratégie réussie.",
+  "Actuellement, sur notre site, nous présentons quelques exemples assez difficiles de MDF."
+];
+
+optionsListBank=[
+  [
+    [],solEn,solEn,solEn,[],solEn,solEn,solEn,solEn,
+  ],
+  [
+    [],solEs,solEs,solEs,[],solEs,solEs,solEs,solEs,
+  ],
+  [
+    [],solFr,solFr,solFr,[],solFr,solFr,solFr,solFr,
+  ]
+]; 
+
+optionsListCorrect =[["",solEn[0],solEn[1], solEn[2], "",solEn[3],solEn[4],solEn[5],solEn[6]],["",solEs[0],solEs[1], solEs[2], "",solEs[3],solEs[4],solEs[5],solEs[6]],["",solFr[0],solFr[1], solFr[2], "",solFr[3],solFr[4],solFr[5],solFr[6]]];
+
+}
+
 
 if(props.id === 1)
 {

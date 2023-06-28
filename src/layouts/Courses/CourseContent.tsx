@@ -9,8 +9,8 @@ export const CourseContent: React.FC<{id:number, language:number}> = (props) => 
     console.log("Loading this!")
     return(
 
-        <div>
-                    <hr />
+        <div className="course-div">
+            <p></p>
             {props.id===1 &&
                 <>
                     <Link type='button' className='btn main-color btn-lg text-white' to='/courses/math/P1'>

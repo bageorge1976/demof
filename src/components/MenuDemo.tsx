@@ -150,7 +150,7 @@ for (var i = 0; i < pageItemHeaderSplit.length; i++) {
         </div>
       </div>
       <button
-        className={showDropDown ? "active" : undefined}
+        className={showDropDown ? "active mx-auto" : undefined} 
         onClick={(): void => toggleDropDown()}
         onBlur={(e: React.FocusEvent<HTMLButtonElement>): void =>
           dismissHandler(e)

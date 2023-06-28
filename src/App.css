@@ -150,3 +150,26 @@ background-color: #000000;
 .item-div{
   width:90%;
 }
+
+.course-div{
+  position: relative; 
+  left:2%;
+  width:96%;
+}
+.video-div{
+position: relative; 
+overflow: hidden;
+padding-top: 56.25%;
+}
+
+.iframe-div{
+  position: absolute;
+  width: 70%; 
+  height: 70%; 
+  top: 15%; 
+  left: 15%; 
+  border: none; 
+  padding: 0; 
+  margin: 0; 
+  overflow:hidden;
+}

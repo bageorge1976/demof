@@ -37,7 +37,7 @@ export default function App(): JSX.Element {
 
 
   return (
-    <div className="d-flex flex-column min-vh-100">
+    <div className="d-flex flex-column min-vw-100 min-vh-100">
 
     <BrowserRouter>
     <Navbar languageSetFunction={setTheLanguage}/>
