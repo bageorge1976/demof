@@ -6,7 +6,7 @@ export const CourseContent: React.FC<{id:number, language:number}> = (props) => 
     const es = 1;
     const fr = 2;
 
-    console.log("Loading this!")
+    //console.log("Loading this!")
     return(
 
         <div className="course-div">

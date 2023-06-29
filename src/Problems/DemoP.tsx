@@ -41,16 +41,16 @@ export const DemoP: React.FC<{id:number, language:number}> = (props) => {
     let pageScore:number = 0;
     let checkIndicator:number[]=[];
     for (i = 0; i < numberOfItems; i++) {
-        console.log(i);
-        console.log (globalOption[i]);
-        console.log (optionsListCorrect[props.language][i]);
+        //console.log(i);
+        //console.log (globalOption[i]);
+        //console.log (optionsListCorrect[props.language][i]);
         if (pageItemType[i] ==="menu")
           if (globalOption[i]===optionsListCorrect[props.language][i]) {pageScore++; checkIndicator[i]=1;}
           else checkIndicator[i]=2; 
         if (pageItemType[i] ==="num")
           if ( Math.abs(parseFloat(globalOption[i])-parseFloat(optionsListCorrect[props.language][i]))<0.01) {pageScore++; checkIndicator[i]=1;}
           else checkIndicator[i]=2;
-        console.log(pageMaxScore);
+        //console.log(pageMaxScore);
       }
     setPresentCheckIndicator(checkIndicator);
     setPresentPageScore(pageScore);
@@ -59,7 +59,7 @@ export const DemoP: React.FC<{id:number, language:number}> = (props) => {
 
   const selectOption = (option: string, id:number, optionsSelected:string[]) => {
     optionsSelected[id] = option; 
-    console.log("ID is:"+id);
+    //console.log("ID is:"+id);
     
     //cheap way to duplicate the array
     const clone = optionsSelected.slice(0);
