@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+
 var Latex=require("react-latex")
 
 
@@ -35,15 +36,15 @@ const DropDown: React.FC<DropDownProps> = ({
         {cities.map(
           (city: string, index: number): JSX.Element => {
             return (
-              <p
+              <p className='pwrap'
                 key={index}
                 onClick={(): void => {
                   onClickHandler(city);
                 }}
               >
-              <Latex>                
+              <Latex>                  
                 {city}
-              </Latex>
+              </Latex>  
               </p>
             );
           }

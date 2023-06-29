@@ -21,7 +21,7 @@ body {
 .announcement {
   padding: 0 0 0.88rem;
   margin: 0 0 0.88rem;
-  /*border-bottom: 1px solid rgb(226, 226, 226);*/
+  /* border-bottom: 1px solid rgb(226, 226, 226); */
 }
 button {
   position: relative;
@@ -54,6 +54,7 @@ button.active {
 }
 .dropdownM {
   position: absolute;
+  /* max-width:500px; */
   top: 38px;
   left: -1px;
   border: 1px solid rgb(197, 197, 197);
@@ -63,14 +64,12 @@ button.active {
   text-align: left;
   border-radius: 0.25rem;
   z-index: 1;
-  
 }
 .dropdownM > p {
-  margin: 0;
+  margin: 10px;
   padding: 0.375rem 0.88rem;
   border-bottom: 1px solid rgb(235, 235, 235);
-  min-width: 140px;
-  
+  min-width: 375px;
 }
 .dropdownM > p:hover {
   color: #fff;
@@ -81,6 +80,10 @@ button.active {
   border-bottom: 0 none;
 }
 
+.pwrap {
+  /* word-break: break-all; */
+  white-space: normal;
+}
 
 body {
   margin: 0;
