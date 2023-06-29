@@ -140,7 +140,7 @@ for (var i = 0; i < pageItemHeaderSplit.length; i++) {
 
       {(props.pageItemType==="menu") && (
       <div>
-      <div className="announcement">
+      <div className="announcement course-div">
         <div>
             <Latex>
           {selectCity

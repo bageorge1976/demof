@@ -752,7 +752,7 @@ const solEn:string[]=[
 const solEs:string[]=[
   "$$\\left(\\frac{S}{N} \\right)_T = \\frac{a_i^2}{\\sigma_0^2}$$", 
   "Se puede expresar la señal, $$a(t)$$, en la salida del filtro, $$\\newline$$en términos de la función de transferencia del filtro, $$H(f)$$  (antes optimización), y la transformada de Fourier de la señal de entrada de la siguiente manera: $$a(t) = \\int_{-\\infty}^{\\infty}H(f)S(f)e^{j2\\pi fT} df$$", 
-  "La densidad espectral de potencia de entrada, $$G_X(f)$$$, y la salida densidad espectral de potencia, $$G_Y(f)$$, se relacionan de la siguiente manera: $$G_Y(f)=G_X(f)|H(f)|^2$$", 
+  "La densidad espectral de potencia de entrada, $$G_X(f)$$, y la salida densidad espectral de potencia, $$G_Y(f)$$, se relacionan de la siguiente manera: $$G_Y(f)=G_X(f)|H(f)|^2$$", 
   "$$\\sigma_0^2 = \\frac{N_0}{2}\\int_{-\\infty}^{\\infty}|H(f)|^2 df$$", 
   "$$\\left(\\frac{S}{N} \\right)_T = \\frac{\\left |\\int_{-\\infty}^{\\infty}H(f)S(f)e^{j2\\pi f_t} df\\right| }{\\frac{N_0}{2}\\int_{-\\infty}^{\\infty}|H(f)|^2 df}$$",
   "$$\\left|\\int_{-\\infty}^{\\infty}H(f)S(f)e^{j2\\pi fT} df \\right|\\leq \\int_{-\\infty}^{\\infty}|H(f)|^2 df\\int_{-\\infty}^{\\infty}|S(f)|^2 df$$",
