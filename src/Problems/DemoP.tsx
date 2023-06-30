@@ -838,13 +838,14 @@ return(
 */}
       {presentPageScore}/{pageMaxScore}
       <hr/>
-      {pageMaxScore===presentPageScore&&
+      {pageMaxScore===presentPageScore?
         <div>
           <div className='d-flex align-items-center'><h1 className="mx-auto">{props.language===en && "Congratulations!" }{props.language===es && "Felicidades!" }{props.language===fr && "Félicitations!" }</h1></div>
           {props.language===en && <div className='d-flex align-items-center'><span className="mx-auto"> Your notes are attached:<a href = {pageSolutionAddress[en]} target = "_blank"><img width='50' src='/pdficon.png' /></a></span></div>}
           {props.language===es && <div className='d-flex align-items-center'><span className="mx-auto"> Sus notas estan adjuntas:<a href = {pageSolutionAddress[es]} target = "_blank"><img width='50' src='/pdficon.png' /></a></span></div>}
           {props.language===fr && <div className='d-flex align-items-center'><span className="mx-auto"> Vos notes sont jointes:<a href = {pageSolutionAddress[fr]} target = "_blank"><img width='50' src='/pdficon.png' /></a></span></div>}
-        </div>
+        </div>:
+        <div><br/><br/><br/><br/></div>
       }
       </div>
       
