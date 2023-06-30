@@ -846,7 +846,7 @@ return(
           {props.language===fr && <div className='d-flex align-items-center'><span className="mx-auto"> Vos notes sont jointes:<a href = {pageSolutionAddress[fr]} target = "_blank"><img width='50' src='/pdficon.png' /></a></span></div>}
         </div>:
         <div>      
-          {optionsListBank[props.language][0].map((itemIndex) => <div><br/><br/></div>)}
+          {optionsListBank[props.language][1].map((itemIndex) => <div><br/><br/></div>)}
          </div>
       }
       </div>
