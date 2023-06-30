@@ -41,10 +41,6 @@ const DropDown: React.FC<DropDownProps> = ({
                 onClick={(): void => {
                   onClickHandler(city);
                 }}
-
-                onTouchStart={(): void => {
-                  onClickHandler(city);
-                }}
               >
               <Latex>                  
                 {city}

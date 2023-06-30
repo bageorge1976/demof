@@ -83,6 +83,7 @@ button.active {
 .pwrap {
   /* word-break: break-all; */
   white-space: normal;
+  cursor: pointer;
 }
 
 body {
