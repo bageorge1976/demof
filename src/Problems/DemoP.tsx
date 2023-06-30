@@ -379,7 +379,7 @@ if(props.id === 2)
     "Se considera un triángulo rectángulo  <kaTex>$$\\triangle ABC$$, $$m(\\angle A)=90^\\circ$$<kaTex> y <kaTex>$$M$$<kaTex> el medio de <kaTex>$$BC$$<kaTex> como se muestra en la Fig. 1.<br/> Demuestre que <kaTex>$$AM = \\frac{BC}{2}$$.<kaTex> <div class='d-flex align-items-center'><img class='mx-auto' src=/righttrimed.png></div><div style='text-align:center;'><span>Figura 1. Triángulo rectángulo y mediana.</span></div>",
     "La demostración se completará mostrando que <kaTex>$$\\triangle BAM$$<kaTex> es isósceles, es decir, <kaTex>$$AM \\cong BM$$.<kaTex> <b>1.____</b>",
     "Para probar que <kaTex>$$AM \\cong BM$$<kaTex> es mejor usar una construcción auxiliar. <b>2.____</b> <div class='d-flex align-items-center'><img class='mx-auto' src=/P2LEFT.png></div><br/><div class='d-flex align-items-center'><img class='mx-auto' src=/P2RIGHT.png></div><div style='text-align:center;'><span>Figura 2. Opciones de condiciones auxiliares.</span></div>",
-    "Para probar que <kaTex>$$AM \\cong BM$$<kaTex>, el par de triángulos similares más útil es: <kaTex>$$\\triangle ABC$$<kaTex> y <kaTex>$$\\triangle EBM$$.<kaTex><br/> <b>3.____</b>. Esto implica que $E$ es el punto medio de $AB$.",
+    "Para probar que <kaTex>$$AM \\cong BM$$<kaTex>, el par de triángulos similares más útil es: <kaTex>$$\\triangle ABC$$<kaTex> y <kaTex>$$\\triangle EBM$$.<kaTex><br/> <b>3.____</b>. Esto implica que E es el punto medio de AB.",
     "Como <kaTex>$$AE \\cong BE$$<kaTex> y tienen un ángulo recto se puede inferir que el triángulo <kaTex>$$\\triangle AEM$$<kaTex> es congruente con <kaTex>$$\\triangle BEM$$<kaTex>.<br/><b>4.____</b>",
     "Una de las consecuencias de la congruencia de triángulos es que <kaTex>$$AM \\cong BM$$.<kaTex><br/>Se concluye: <kaTex>$$AM = BM = \\frac{BC}{2}$$",
   ],
@@ -737,11 +737,11 @@ if(props.id === 4)
 
 const solEn:string[]=[
   "$$\\left(\\frac{S}{N} \\right)_T = \\frac{a_i^2}{\\sigma_0^2}$$", 
-  "We can express the signal, $$a(t)$$, at the filter output, $$\\newline$$ in terms of the filter transfer function, $$H(f)$$ (before optimization), and the Fourier transform of the input signal as follows: $$a(t) = \\int_{-\\infty}^{\\infty}H(f)S(f)e^{j2\\pi fT} df$$", 
+  "We can express the signal, $$a(t)$$, at the filter output, $$\\newline$$ in terms of the filter transfer function, $$H(f)$$ (before optimization), and the Fourier transform of the input signal as follows: $$a(t) = \\int_{-\\infty}^{\\infty}H(f)S(f)e^{j2\\pi ft} df$$", 
   "The input power spectral density, $$G_X(f)$$, and the output power spectral density, $$G_Y(f)$$, are related as follows: $$G_Y(f)=G_X(f)|H(f)|^2$$", 
   "$$\\sigma_0^2 = \\frac{N_0}{2}\\int_{-\\infty}^{\\infty}|H(f)|^2 df$$", 
-  "$$\\left(\\frac{S}{N} \\right)_T = \\frac{\\left |\\int_{-\\infty}^{\\infty}H(f)S(f)e^{j2\\pi f_t} df\\right| }{\\frac{N_0}{2}\\int_{-\\infty}^{\\infty}|H(f)|^2 df}$$",
-  "$$\\left|\\int_{-\\infty}^{\\infty}H(f)S(f)e^{j2\\pi fT} df \\right|\\leq \\int_{-\\infty}^{\\infty}|H(f)|^2 df\\int_{-\\infty}^{\\infty}|S(f)|^2 df$$",
+  "$$\\left(\\frac{S}{N} \\right)_T = \\frac{\\left |\\int_{-\\infty}^{\\infty}H(f)S(f)e^{j2\\pi fT} df\\right|^2 }{\\frac{N_0}{2}\\int_{-\\infty}^{\\infty}|H(f)|^2 df}$$",
+  "$$\\left|\\int_{-\\infty}^{\\infty}H(f)S(f)e^{j2\\pi fT} df \\right|^2 \\leq \\int_{-\\infty}^{\\infty}|H(f)|^2 df\\int_{-\\infty}^{\\infty}|S(f)|^2 df$$",
   "$$\\left(\\frac{S}{N} \\right)_T \\leq \\frac{2}{N_0}\\int_{-\\infty}^{\\infty}|S(f)|^2 df$$",
   "$$max \\left ( \\frac{S}{N} \\right )_T = \\frac{2E}{N_0}$$",
   "$$H(f) = H_0(f) = k S^*(f)e^{-j2\\pi fT}$$",
@@ -751,11 +751,11 @@ const solEn:string[]=[
 ]
 const solEs:string[]=[
   "$$\\left(\\frac{S}{N} \\right)_T = \\frac{a_i^2}{\\sigma_0^2}$$", 
-  "Se puede expresar la señal, $$a(t)$$, en la salida del filtro, $$\\newline$$en términos de la función de transferencia del filtro, $$H(f)$$  (antes optimización), y la transformada de Fourier de la señal de entrada de la siguiente manera: $$a(t) = \\int_{-\\infty}^{\\infty}H(f)S(f)e^{j2\\pi fT} df$$", 
+  "Se puede expresar la señal, $$a(t)$$, en la salida del filtro, $$\\newline$$en términos de la función de transferencia del filtro, $$H(f)$$  (antes optimización), y la transformada de Fourier de la señal de entrada de la siguiente manera: $$a(t) = \\int_{-\\infty}^{\\infty}H(f)S(f)e^{j2\\pi ft} df$$", 
   "La densidad espectral de potencia de entrada, $$G_X(f)$$, y la salida densidad espectral de potencia, $$G_Y(f)$$, se relacionan de la siguiente manera: $$G_Y(f)=G_X(f)|H(f)|^2$$", 
   "$$\\sigma_0^2 = \\frac{N_0}{2}\\int_{-\\infty}^{\\infty}|H(f)|^2 df$$", 
-  "$$\\left(\\frac{S}{N} \\right)_T = \\frac{\\left |\\int_{-\\infty}^{\\infty}H(f)S(f)e^{j2\\pi f_t} df\\right| }{\\frac{N_0}{2}\\int_{-\\infty}^{\\infty}|H(f)|^2 df}$$",
-  "$$\\left|\\int_{-\\infty}^{\\infty}H(f)S(f)e^{j2\\pi fT} df \\right|\\leq \\int_{-\\infty}^{\\infty}|H(f)|^2 df\\int_{-\\infty}^{\\infty}|S(f)|^2 df$$",
+  "$$\\left(\\frac{S}{N} \\right)_T = \\frac{\\left |\\int_{-\\infty}^{\\infty}H(f)S(f)e^{j2\\pi fT} df\\right|^2 }{\\frac{N_0}{2}\\int_{-\\infty}^{\\infty}|H(f)|^2 df}$$",
+  "$$\\left|\\int_{-\\infty}^{\\infty}H(f)S(f)e^{j2\\pi fT} df \\right|^2 \\leq \\int_{-\\infty}^{\\infty}|H(f)|^2 df\\int_{-\\infty}^{\\infty}|S(f)|^2 df$$",
   "$$\\left(\\frac{S}{N} \\right)_T \\leq \\frac{2}{N_0}\\int_{-\\infty}^{\\infty}|S(f)|^2 df$$",
   "$$max \\left ( \\frac{S}{N} \\right )_T = \\frac{2E}{N_0}$$",
   "$$H(f) = H_0(f) = k S^*(f)e^{-j2\\pi fT}$$",
@@ -766,11 +766,11 @@ const solEs:string[]=[
 
 const solFr:string[]=[
   "$$\\left(\\frac{S}{N} \\right)_T = \\frac{a_i^2}{\\sigma_0^2}$$", 
-  "Nous pouvons exprimer le signal, $$a(t)$$, à la sortie du filtre, $$\\newline$$ en fonction de la fonction de transfert du filtre, $$H(f)$$ (avant optimisation), et la transformée de Fourier du signal d'entrée comme suit: $$a(t) = \\int_{-\\infty}^{\\infty}H(f)S(f)e^{j2\\pi fT} df$$", 
+  "Nous pouvons exprimer le signal, $$a(t)$$, à la sortie du filtre, $$\\newline$$ en fonction de la fonction de transfert du filtre, $$H(f)$$ (avant optimisation), et la transformée de Fourier du signal d'entrée comme suit: $$a(t) = \\int_{-\\infty}^{\\infty}H(f)S(f)e^{j2\\pi ft} df$$", 
   "La densité spectrale de puissance d'entrée, $$G_X(f)$$, et la sortie densité spectrale de puissance, $$G_Y(f)$$, sont liées comme suit: $$G_Y(f)=G_X(f)|H(f)|^2$$", 
   "$$\\sigma_0^2 = \\frac{N_0}{2}\\int_{-\\infty}^{\\infty}|H(f)|^2 df$$", 
-  "$$\\left(\\frac{S}{N} \\right)_T = \\frac{\\left |\\int_{-\\infty}^{\\infty}H(f)S(f)e^{j2\\pi f_t} df\\right| }{\\frac{N_0}{2}\\int_{-\\infty}^{\\infty}|H(f)|^2 df}$$",
-  "$$\\left|\\int_{-\\infty}^{\\infty}H(f)S(f)e^{j2\\pi fT} df \\right|\\leq \\int_{-\\infty}^{\\infty}|H(f)|^2 df\\int_{-\\infty}^{\\infty}|S(f)|^2 df$$",
+  "$$\\left(\\frac{S}{N} \\right)_T = \\frac{\\left |\\int_{-\\infty}^{\\infty}H(f)S(f)e^{j2\\pi fT} df\\right|^2 }{\\frac{N_0}{2}\\int_{-\\infty}^{\\infty}|H(f)|^2 df}$$",
+  "$$\\left|\\int_{-\\infty}^{\\infty}H(f)S(f)e^{j2\\pi fT} df \\right|^2 \\leq \\int_{-\\infty}^{\\infty}|H(f)|^2 df\\int_{-\\infty}^{\\infty}|S(f)|^2 df$$",
   "$$\\left(\\frac{S}{N} \\right)_T \\leq \\frac{2}{N_0}\\int_{-\\infty}^{\\infty}|S(f)|^2 df$$",
   "$$max \\left ( \\frac{S}{N} \\right )_T = \\frac{2E}{N_0}$$",
   "$$H(f) = H_0(f) = k S^*(f)e^{-j2\\pi fT}$$",

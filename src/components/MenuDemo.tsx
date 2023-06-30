@@ -118,7 +118,7 @@ for (var i = 0; i < pageItemHeaderSplit.length; i++) {
     {(props.pageItemType==="info") && (<div></div>)}
 
     {(props.pageItemType==="num") && (
-      <div>
+      <div className="course-div">
       {/*<p>{numericalInput}</p>*/}
       <div>{numericalInputEntered}</div>
       <input type="text" placeholder="0.00" size={12} value={numericalInput} onChange={changeNumericalInputHandler}/>
@@ -141,12 +141,13 @@ for (var i = 0; i < pageItemHeaderSplit.length; i++) {
       {(props.pageItemType==="menu") && (
       <div>
       <div className="announcement course-div">
-        <div>
+        <div><b>
             <Latex>
           {selectCity
             ? `${selectCity}`
             : ""}
             </Latex>
+            </b>
         </div>
       </div>
       <button
@@ -159,7 +160,7 @@ for (var i = 0; i < pageItemHeaderSplit.length; i++) {
         {/* <div>{selectCity ? "Select: " + selectCity : "Select ..."}</div> */}
         {props.pageItemLanguage===en && (<div> Select ...</div>)}
         {props.pageItemLanguage===es && (<div> Seleccione ...</div>)}
-        {props.pageItemLanguage===fr && (<div> Selecte ...</div>)}
+        {props.pageItemLanguage===fr && (<div> Sélectionner ...</div>)}
         {showDropDown && (
           <DropDown
             cities={cities()}

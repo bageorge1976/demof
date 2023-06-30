@@ -13,7 +13,7 @@ export const HomePage: React.FC<{language:number}> = (props) => {
           </iframe>
         </div>}
         {props.language===es &&<div className='video-div'>
-          <iframe src="https://topnotchcanada.ca/edom/movies/HomepageArgentinaIntroduccion.mp4" loading="lazy" title="Homepage Introduccion Argentina" allow="encrypted-media; fullscreen;" className='iframe-div'>
+          <iframe src="https://topnotchcanada.ca/edom/movies/HomepageArgentinaIntroduccion2p0.mp4" loading="lazy" title="Homepage Introduccion Argentina" allow="encrypted-media; fullscreen;" className='iframe-div'>
           </iframe>
         </div>}
         {props.language===fr &&<div className='video-div'>
